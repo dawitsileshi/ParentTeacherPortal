@@ -147,7 +147,7 @@ studentRouter.get("/student/medical/:id", (req, res, next) => {
     studentModel.showStudentMedicalRecord(id).then(foundSchedule => {
         res.json(foundSchedule);
     }).catch(err => {
-        console.log(err)
+        console.log(err);
         next(err)
     })
 
@@ -160,7 +160,7 @@ studentRouter.get("/student/grade/:id", (req, res, next) => {
     studentModel.showStudentGrade(id).then(foundSchedule => {
         res.json(foundSchedule);
     }).catch(err => {
-        console.log(err)
+        console.log(err);
         next(err)
     })
 
@@ -169,48 +169,49 @@ studentRouter.post("/student", (req, res, next) => {
 
     let passedData = req.body;
     console.log(passedData);
+    res.json(passedData)
 
-    let token = cryptoo.randomBytes(8).toString("hex");
+    // let token = cryptoo.randomBytes(8).toString("hex");
 
-    let imageBuff = new Buffer(passedData.pic.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
+    // let imageBuff = new Buffer(passedData.pic.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
     // let imageBuff = new Buffer(passedData.pic, 'base64');
-    let student = {
+    // let student = {
         // id: passedData.id,
-        fname: passedData.fname,
-        lname: passedData.lname,
-        pic: {
-            data: imageBuff,
-            contentType: "image/jpg"
-        },
-        year: passedData.year,
-        age: passedData.age,
-        gender: passedData.gender,
-        section: passedData.section,
-        inSchool: true,
+        // fname: passedData.fname,
+        // lname: passedData.lname,
+        // pic: {
+        //     data: imageBuff,
+        //     contentType: "image/jpg"
+        // },
+        // year: passedData.year,
+        // age: passedData.age,
+        // gender: passedData.gender,
+        // section: passedData.section,
+        // inSchool: true,
         // semester: passedData.semester,
-        familyContact: [{
-            email: passedData.familyEmail,
-            token: token,
-            tel: passedData.familyTel,
-        }],
-        schedule:[]
-
-    };
+        // familyContact: [{
+        //     email: passedData.familyEmail,
+        //     token: token,
+        //     tel: passedData.familyTel,
+        // }],
+        // schedule:[]
+    //
+    // };
 
     // console.log(passedData.pic);
     // res.json(passedData.pic.data);
 
-    studentModel.registerStudent(student).then(savedStudent => {
+    // studentModel.registerStudent(student).then(savedStudent => {
 
         // scheduleModel.updateStudent(passedData.section, passedData.year)
-        res.json(savedStudent)
+        // res.json(savedStudent)
 
-    }).catch(err => {
+    // }).catch(err => {
 
-        console.log(err);
-        next(err)
+        // console.log(err);
+        // next(err)
 
-    })
+    // })
 
 });
 

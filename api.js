@@ -8,6 +8,7 @@ let studentRouter = require("./controller/routers/studentRouter");
 let gradeRouter = require("./controller/routers/gradeRouter");
 let scheduleRouter = require("./controller/routers/scheduleRouter");
 let parentRouter = require("./controller/routers/parentRouter");
+let student = require("./model/schemas/studentSchema");
 //let noticeRouter = require("./routers/noticeRouter");
 
 global.cryptoo = require("crypto");
@@ -15,7 +16,7 @@ let app = express();
 
 app.engine("ejs", engine);
 app.use(morgan('dev'));
-app.use(express.static("./public"));
+app.use(express.static("./views/assets"));
 // app.use(express.static(__dirname + "/assets"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -45,7 +46,7 @@ app.use("/home", (req, res, next) => {
 app.use("/new_student", (req, res, next) => {
 
     // console.log("Arrived");
-    res.render("pages/account/studentRegister");
+    res.render("registrar/studentRegister");
 
 });
 // app.use("/api", noticeRouter);
@@ -73,7 +74,32 @@ app.use("/teacher_home", (req, res, next) => {
 
 app.use("/attendance", (req, res, next) => {
 
-    res.render("pages/teacher/attendance");
+    student.find({}, (err, foundStudents) => {
+        if(err) {
+            next(err);
+        } else {
+            res.render("teacher/attendance", {students: foundStudents});
+        }
+    })
+    // res.render("teacher/attendance");
+
+});
+
+app.use("/login", (req, res, next) => {
+
+    res.render("login")
+
+});
+
+app.use("/registerStudent", (req, res, next) => {
+
+    res.render("registrar/studentRegister")
+
+});
+
+app.use("/medical", (req, res, next) => {
+
+    res.render("nurse/enter_medical")
 
 });
 
