@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 
 let gradeSchema = new mongoose.Schema({
-    studentId: String,
+    studentId: mongoose.Schema.Types.ObjectId,
     name: String,
     grade: [{year: String,
             semester: [{semester: String,
@@ -13,13 +13,7 @@ let gradeSchema = new mongoose.Schema({
                                     total: Number}],
                         total: Number,
                         average: Number}]}]
-    // result: [{
-    //     course: [{
-    //         year: String,
-    //         semester: String,
-    //
-    //     }]
-    // }]
+
 });
 
 let gradeModel = new mongoose.model("grade", gradeSchema);

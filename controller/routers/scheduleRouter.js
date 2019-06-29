@@ -3,6 +3,7 @@ let scheduleRouter = require("express").Router();
 
 scheduleRouter.get("/schedules", (req, res, next) => {
 
+    console.log("called here");
     scheduleModel.listAllSchedules().then((foundSchedules) => {
         res.json(foundSchedules)
     }).catch(err => {
@@ -12,11 +13,61 @@ scheduleRouter.get("/schedules", (req, res, next) => {
 
 });
 
-scheduleRouter.get("schedules/year", (req, res, next) => {
+scheduleRouter.post("/specificSchedule", (req, res, next) => {
 
-    let year = req.body.year;
+    let passedData = req.body;
+    console.log(passedData);
+    scheduleModel.findSchedule(passedData.day, passedData.grade, passedData.section, passedData.semester).then(foundSchedule => {
 
-    scheduleModel.listByYear(year).then(foundSchedules => {
+        console.log(foundSchedule)
+        res.json(foundSchedule)
+
+    }).catch(err => {
+
+        console.log(err);
+        next(err)
+
+    })
+
+});
+scheduleRouter.get("/addSchedule", (req, res, next) => {
+
+    console.log("addSchedule arrived");
+
+    res.render("director/newSchedule")
+
+});
+
+scheduleRouter.get("/listSchedules", (req, res, next) => {
+
+    res.render("director/listSchedules");
+    console.log("listSchedules arrived")
+
+});
+
+scheduleRouter.get("/schedule/:id", (req, res, next) => {
+
+    let id = req.params.id;
+    console.log(id);
+
+    scheduleModel.scheduleById(id).then(foundSchedule => {
+
+        console.log(foundSchedule);
+        res.json(foundSchedule)
+
+    }).catch(err => {
+
+        next(err);
+
+    })
+
+});
+
+scheduleRouter.get("schedules/grade", (req, res, next) => {
+
+    let grade = req.body.grade;
+
+    scheduleModel.listByYear(grade).then(foundSchedules => {
 
         res.json(foundSchedules)
 
@@ -66,21 +117,24 @@ scheduleRouter.post("/schedule", (req, res, next) => {
 
     let passedData = req.body;
 
-    let year = passedData.year;
+    console.log(passedData);
+    let grade = passedData.grade;
     let semester = passedData.semester;
+    let section = passedData.section;
     let day = passedData.day;
     let dayNumber = retrieveNumber(day);
-    let section = passedData.section;
-    let period = passedData.period;
-    // let program = passedData.program;
-    let courseName = passedData.courseName;
-    let teacherName = passedData.teacherName;
-
+    let programs = passedData.program;
+    // let period = passedData.period;
+    // // let program = passedData.program;
+    // let courseName = passedData.courseName;
+    // let teacherName = passedData.teacherName;
+    //
     let program = [];
-    for (let i = 0; i < period.length; i++) {
-        let singleProgram = {period: period[i],
-                        courseName: courseName[i],
-                        teacherName: teacherName[i]};
+    for (let i = 0; i < programs.length; i++) {
+        let singleProgram = {period: programs[i].period,
+                        courseName: programs[i].course,
+                        teacherId: programs[i].teachers.id,
+                        teacherName: programs[i].teachers.name};
         program.push(singleProgram);
     }
     // console.log("arrived here");
@@ -94,11 +148,11 @@ scheduleRouter.post("/schedule", (req, res, next) => {
     // let dayArray = [{dayNumber: dayNumber,
     //                 name: day,
     //                 schedule: scheduleArray}];
-    // let yearArray = [{year: [{year: year,
+    // let gradeArray = [{grade: [{grade: grade,
     //     semester: semester,
     //     day: dayArray}]}];
 
-    // let schedule = {year: year,
+    // let schedule = {grade: grade,
     //                 semester: semester,
     //                 day: day,
     //                 dayNumber: dayNumber,
@@ -109,7 +163,7 @@ scheduleRouter.post("/schedule", (req, res, next) => {
     //                     teacherName: teacherName
     //                 }]};
 
-    let schedule = {year: year,
+    let schedule = {grade: grade,
         semester: semester,
         day: day,
         dayNumber: dayNumber,
@@ -117,9 +171,9 @@ scheduleRouter.post("/schedule", (req, res, next) => {
         program: program,
         students: []};
 
-    res.json(passedData);
-    console.log(passedData);
-    // let schedule = {schedule: [{year: [{year: year,
+    // res.json(passedData);
+    // console.log(passedData);
+    // let schedule = {schedule: [{grade: [{grade: grade,
     //                         semester: semester,
     //                         day: [{
     //                             day: dayNumber,
@@ -141,8 +195,16 @@ scheduleRouter.post("/schedule", (req, res, next) => {
         dayNumber: dayNumber,
         program: program};
 
-    scheduleModel.addSchedule(schedule, year, section, scheduleForStudent).then(savedSchedule => {
-        res.json(savedSchedule)
+    // console.log("The main schedule", schedule)
+    scheduleModel.addSchedule(schedule, grade, section, scheduleForStudent).then(savedSchedule => {
+        if(typeof savedSchedule === "string") {
+
+            res.render("director/newSchedule", {message: savedSchedule})
+            console.log(savedSchedule)
+
+        } else {
+            res.json(savedSchedule)
+        }
     }).catch(err => {
         console.log(err);
         res.json(err);
@@ -150,11 +212,29 @@ scheduleRouter.post("/schedule", (req, res, next) => {
 
 });
 
+scheduleRouter.post("/schedules", (req, res, next) => {
+
+    console.log("came here")
+
+})
+
+scheduleRouter.put("/schedule", (req, res, next) => {
+
+    let schedule = req.body;
+    console.log(schedule)
+    scheduleModel.editScheduleById(req.body.id, schedule).then(foundSchedule => {
+        console.log(foundSchedule)
+    }).catch(err => {
+        console.log(err)
+    });
+    // console.log(req.body);
+
+})
 scheduleRouter.put("/schedule/period", (req, res, next) => {
 
     let passedData = req.body;
 
-    let year = passedData.year;
+    let grade = passedData.grade;
     let section = passedData.section;
     let semester = passedData.semester;
     let day = passedData.day;
@@ -163,7 +243,7 @@ scheduleRouter.put("/schedule/period", (req, res, next) => {
                 courseName: passedData.courseName,
                 teacherName: passedData.teacherName};
 
-    scheduleModel.addPeriod(period, year, section, semester, day).then(updatedSchedule => {
+    scheduleModel.addPeriod(period, grade, section, semester, day).then(updatedSchedule => {
         res.json(updatedSchedule)
     }).catch(err => {
         res.json(err)
@@ -174,16 +254,16 @@ scheduleRouter.put("/schedule/period", (req, res, next) => {
 scheduleRouter.delete("/schedule/period", (req, res, next) => {
 
     let passedData = req.query;
-    let year = passedData.year;
+    let grade = passedData.grade;
     let section = passedData.section;
     let semester = passedData.semester;
     let period = passedData.period;
 
     console.log(passedData);
-    scheduleModel.removePeriod(period, semester, year, section).then(updatedSchedule => {
+    scheduleModel.removePeriod(period, semester, grade, section).then(updatedSchedule => {
         res.json(updatedSchedule);
     }).catch(err => {
-        console.log(err);
+        console.log("The error", err);
         res.json(err);
     })
 
@@ -191,6 +271,7 @@ scheduleRouter.delete("/schedule/period", (req, res, next) => {
 
 scheduleRouter.delete("/schedule/:id", (req, res, next) => {
 
+    console.log("deleting")
     let id = req.params.id;
 
     scheduleModel.removeScheduleById(id).then(foundSchedule => {
@@ -207,10 +288,10 @@ scheduleRouter.delete("/schedule", (req, res, next) => {
     let passedData = req.query;
 
     let section = passedData.section;
-    let year = passedData.year;
+    let grade = passedData.grade;
     let semester = passedData.semester;
 
-    scheduleModel.removeSchedule(section, year, semester, 0).then(deletedSchedule => {
+    scheduleModel.removeSchedule(section, grade, semester, 0).then(deletedSchedule => {
         res.json(deletedSchedule)
     }).catch(err => {
         console.log(err);

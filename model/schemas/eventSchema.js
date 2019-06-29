@@ -7,12 +7,7 @@ let eventSchema = new mongoose.Schema({
         default: Date.now()
     },
     description: String,
-    destination: [{
-        year: Number,
-        semester: Number,
-        section: String
-    }]
-
+    when: Date,
 });
 
 let eventModel = new mongoose.model("event", eventSchema);

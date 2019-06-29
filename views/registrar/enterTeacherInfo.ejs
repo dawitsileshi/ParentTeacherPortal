@@ -1,0 +1,157 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+        <div class="container"><a href="#" class="navbar-brand logo">Mekelle University Community School</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                 id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li role="presentation" class="nav-item"><a href="index.ejs" id="homeId" class="nav-link active">Home</a></li>
+                    <li role="presentation" class="nav-item"><a href="/new_student" id="manageStudentId" class="nav-link">Student</a></li>
+                    <li role="presentation" class="nav-item"><a href="/teacher/enterinfo" id="manageTeacherId" class="nav-link">Teacher</a></li>
+                    <!--<li role="presentation" class="nav-item"><a href="contact-us.ejs" class="nav-link">Contact Us</a></li>-->
+                    <li role="presentation" class="nav-item"><a href="/login" class="nav-link">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<!--<section class="clean-block clean-form dark">-->
+<!--<div class="container">-->
+<!--<div class="block-heading">-->
+<!--<h2 class="text-info">Forgot Password</h2>-->
+<!--</div>-->
+<!--<form>-->
+<!--<div class="form-group"><input type="email" placeholder="Email" class="form-control item" id="email" name="email" /></div><button class="btn btn-primary btn-block" type="button">Submit</button></form>-->
+<!--</div>-->
+<!--</section>-->
+<section class="clean-block clean-form login-clean dark" style="margin-top: 50px">
+
+    <div class="container">
+        <div class="block-heading">
+            <h2>
+                Register a teacher
+            </h2>
+        </div>
+        <form method="post" action="/api/teacher">
+            <div class="row">
+                <div class="form-group col">
+                    <input type="text" class="form-control" name="fname" id="fname" placeholder="first name" required>
+                </div>
+
+                <div class="form-group col">
+                    <input type="text" class="form-control" name="lname" id="lname" placeholder="last name" required>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<input type="text" class="form-control" name="uname" id="uname" placeholder="user name" required>-->
+                <!--<small id="unameHelp" class="help-block">please, use a user name that starts with <b>tea/</b></small>-->
+            <!--</div>-->
+
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="email" required>
+                <!--<small id="unameHelp">please, use a user name that starts with <b>tea</b></small>-->
+            </div>
+
+            <!--<div class="form-group">-->
+                <!--<input type="password" class="form-control" name="password" id="password" placeholder="password" required>-->
+                <!--&lt;!&ndash;<small id="Help">please, use a user name that starts with <b>tea</b></small>&ndash;&gt;-->
+            <!--</div>-->
+
+            <section class="container">
+                <div class="row">
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="amharic" value="Amharic" required>
+                        <label class="form-check-label" for="amharic">
+                            Amharic
+                        </label>
+                    </div>
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="english" value="English" required>
+                        <label class="form-check-label" for="english">
+                            English
+                        </label>
+                    </div>
+
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="maths" value="Maths" required>
+                        <label class="form-check-label" for="maths">
+                            Maths
+                        </label>
+                    </div>
+
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="biology" value="Biology" required>
+                        <label class="form-check-label" for="biology">
+                            Biology
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="chemistry" value="Chemistry" required>
+                        <label class="form-check-label" for="chemistry">
+                            Chemistry
+                        </label>
+                    </div>
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="physics" value="Physics" required>
+                        <label class="form-check-label" for="physics">
+                            Physics
+                        </label>
+                    </div>
+
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="geography" value="Geography" required>
+                        <label class="form-check-label" for="geography">
+                            Geography
+                        </label>
+                    </div>
+
+                    <div class="form-check col">
+                        <input class="form-check-input" type="radio" name="course" id="civics" value="Civics" required>
+                        <label class="form-check-label" for="civics">
+                            Civics
+                        </label>
+                    </div>
+                </div>
+            </section><br>
+            <!--<div class="form-check">-->
+            <!--<label>-->
+            <!--<input type="radio" class="form-check" name="course" value="Amharic" title="Amharic">-->
+            <!--</label>-->
+            <!--<label>English-->
+            <!--<input type="radio" class="form-check" name="course" value="English">-->
+            <!--</label>-->
+            <!--<label>Maths-->
+            <!--<input type="radio" class="form-check" name="course" value="Maths">-->
+            <!--</label>-->
+            <!--<label>Biology-->
+            <!--<input type="radio" class="form-check" name="course" value="Biology">-->
+            <!--</label>-->
+            <!--<label>Chemistry-->
+            <!--<input type="radio" class="form-check" name="course" value="Chemistry">-->
+            <!--</label>-->
+
+            <!--<label>Physics-->
+            <!--<input type="radio" class="form-check" name="course" value="Physics">-->
+            <!--</label>-->
+            <!--</div>-->
+            <div class="text-center">
+                <button class="btn btn-primary center-block text-center" id="submit" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script src="/js/teacherRegister.js"></script>
+<script src="/js/registrarLinking.js"></script>
+</body>
+</html>

@@ -4,26 +4,17 @@ let teacherSchema = new mongoose.Schema({
 
     fname: String,
     lname: String,
+    uname: String,
+    password: String,
     gender: String,
     email: String,
-	course: [{
-        name: String,
+    course: String,
+    schedules: [{
+        scheduleId: mongoose.Schema.Types.ObjectId
+    }],
+    students: [{
+        studentId: mongoose.Schema.Types.ObjectId
     }]
-    // schedules: [{ year: Number,
-    // 			sections: [{ section: String,
-    // 						programs: [{ day: String,
-   	// 									periods: [{ period: Number,
-  		// 											courseName: String
- 			// 									}]
- 			// 						}]
-   			// 			}]
-				// }]
-
-    // course: [{
-        // name: String,
-        // year: Number,
-        // period: Number
-    // }]
 
 });
 

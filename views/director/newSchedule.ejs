@@ -1,0 +1,87 @@
+<html>
+<head>
+    <script type="text/javascript" src="/js/addSchedule.js"></script>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body>
+<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+    <div class="container"><a href="#" class="navbar-brand logo">Mekelle University Community School</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                <li role="presentation" class="nav-item"><a id="homeId" href="" class="nav-link active">Home</a></li>
+                <li role="presentation" class="nav-item"><a id="scheduleId" href="/api/listSchedules" class="nav-link active">Schedules</a></li>
+                <li role="presentation" class="nav-item"><a id="eventsId" href="/api/listEvents" class="nav-link">Events</a></li>
+                <li role="presentation" class="nav-item"><a id="studentsId" href="/api/manageStudents" class="nav-link">Students</a></li>
+                <li role="presentation" class="nav-item"><a id="registrarsId" href="/registrar/register" class="nav-link">Registrar</a></li>
+            </ul>
+            <span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="/login">Log out</a></span>
+
+        </div>
+    </div>
+</nav>
+
+<div style="margin-top: 130px">
+
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <label>Day:
+                    <select name="day" class="form-control" id="day" required>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                    </select>
+                </label><br><br>
+            </div>
+            <div class="col">
+                <label>Grade:
+                <input type="number" name="grade" class="form-control" id="grade" required>
+                </label>
+            </div>
+            <div class="col">
+                <label>Semester:
+                    <input type="number" name="semester" class="form-control" id="semester"required>
+                </label><br>
+            </div>
+            <div class="col">
+
+                <label>Section:
+                    <input type="text" name="section" class="form-control" id="section" required>
+                </label><br>
+            </div>
+
+        </div>
+    </div>
+    <!---->
+    <!--<div id="programs">-->
+
+            <!--<h5 class="card-title">Semester</h5>-->
+            <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+            <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+            <!--<label class="card-title">Semester:-->
+                <!--<input type="number" name="semester" class="card-text">-->
+            <!--</label>-->
+    <section class="container" id="container"></section>
+    <div class="card-deck" id="card-deck"></div>
+            <!--<div id="programs" style="width: 18rem;">-->
+                <!--<div id="program">-->
+                    <!--<div class="row">-->
+                        <!---->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="text-center">
+
+        <button type="button" class="btn btn-primary" id="addScheduleButton" formaction="api/schedule">Submit</button>
+    </div>
+</form>
+</div>
+<script src="/js/directorLinking.js"></script>
+</body>
+</html>

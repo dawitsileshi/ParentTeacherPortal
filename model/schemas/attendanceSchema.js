@@ -1,14 +1,27 @@
 let mongoose = require("mongoose");
 
 let attendanceSchema = new mongoose.Schema({
-   courseName: String,
-   period: String,
-   date: Date,
-   students: [ {
-       id: mongoose.Schema.Types.ObjectId,
-       name: String,
-       numberOfTimes: Number,
-       excuse: String
+    dailyAttendance: {
+        year: Number,
+        section: String,
+        date: Date,
+        attendance:[{
+            courseName: String,
+            teacherId: mongoose.Schema.Types.ObjectId,
+            period: String,
+            students: [{
+                studentId: mongoose.Schema.Types.ObjectId,
+                value: String,
+                excused: Boolean
+            }]
+        }],
+   },
+   criticalStage: [{
+        studentId: mongoose.Schema.Types.ObjectId
+            // studentId: {
+            //     type: mongoose.Schema.Types.ObjectId,
+            //     ref: "student"
+            // }
    }]
 });
 

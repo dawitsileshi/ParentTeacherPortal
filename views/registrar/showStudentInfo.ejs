@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Second Community School Project</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/css/smoothproducts.css">
+</head>
+
+<body>
+<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+    <div class="container"><a class="navbar-brand logo" href="#">Xyz Community School</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                <li role="presentation" class="nav-item"><a href="index.ejs" class="nav-link active">Home</a></li>
+                <li role="presentation" class="nav-item"><a href="/new_student" class="nav-link">Register Student</a></li>
+                <li role="presentation" class="nav-item"><a href="/teacher/enterinfo" class="nav-link">Register Teacher</a></li>
+                <li role="presentation" class="nav-item"><a href="contact-us.ejs" class="nav-link">Contact Us</a></li>
+                <li role="presentation" class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section class="clean-block clean-form dark">
+    <div class="container">
+        <div class="block-heading">
+            <h2 class="text-info">Student Info</h2>
+        </div>
+        <div class="row">
+            <div class="col">
+                <%= student.fname + " " + student.lname %>
+            </div>
+
+            <div class="col">
+                <%= student.grade %>
+            </div>
+
+            <div class="col">
+                <%= student.age %>
+            </div>
+
+            <div class="col">
+                <%= student.gender %>
+            </div>
+
+            <div class="col">
+                <%= student.section %>
+            </div>
+        </div>
+        <form>
+            <div class="form-group"><input type="email" placeholder="Email" class="form-control item" id="email" name="email" /></div><button class="btn btn-primary btn-block" type="button">Submit</button></form>
+    </div>
+</section>
+<script src="/js/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="/js/smoothproducts.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+
+</html>

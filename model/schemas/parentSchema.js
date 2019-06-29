@@ -9,10 +9,11 @@ let parentSchema = new mongoose.Schema({
     tel: String,
     password: String,
     students: [{
-        studentId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "student"
-        }
+        student: mongoose.Schema.Types.ObjectId
+        // studentId: {
+            // type: mongoose.Schema.Types.ObjectId,
+            // ref: "student"
+        // }
     }]
 });
 

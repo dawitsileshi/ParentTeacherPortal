@@ -4,7 +4,7 @@ let scheduleModel = require("./schemas/scheduleSchema");
 exports.registerStudent = student => {
 
   return new Promise((resolve, reject) => {
-      // scheduleModel.findOne({section: student.section, year: student.year}, (err, foundSchedule) => {
+      // scheduleModel.findOne({section: student.section, grade: student.grade}, (err, foundSchedule) => {
       //     if(err) {
       //         reject(err)
       //     } else {
@@ -118,11 +118,29 @@ exports.listBySection = section => {
 
 };
 
-exports.listByYear = year => {
+exports.listBygrade = grade => {
 
     return new Promise((resolve, reject) => {
 
-        studentModel.find({year: year}, (err, foundStudent) => {
+        studentModel.find({grade: grade}, (err, foundStudent) => {
+
+            if(err) {
+                reject(err)
+            } else {
+                resolve(foundStudent)
+            }
+
+        })
+
+    })
+
+};
+
+exports.listBySectiongrade = (grade, section) => {
+
+    return new Promise((resolve, reject) => {
+
+        studentModel.find({grade: grade, section: section}, (err, foundStudent) => {
 
             if(err) {
                 reject(err)
@@ -208,11 +226,63 @@ exports.showStudentGrade = id => {
 
 };
 
-exports.removeSchedule = (year, section, semester, dayNumber) => {
+exports.updateStudentInfo = (student, id) => {
 
     return new Promise((resolve, reject) => {
 
-        studentModel.find({section: section, year: year, semester: semester}, (err, foundStudent) => {
+
+
+    })
+
+};
+
+exports.listById = id => {
+
+  return new Promise((resolve, reject) => {
+
+      studentModel.findOne({idNumber: id}, (err, foundStudent) => {
+      console.log("passedData", foundStudent);
+
+          if(err) {
+              reject(err)
+          } else {
+              resolve(foundStudent)
+          }
+
+      })
+
+  })
+
+};
+
+exports.promoteStudent = id => {
+
+    return new Promise((resolve, reject) => {
+
+        studentModel.findOne({_id: id}, (err, foundStudent) => {
+            if(err) {
+                reject(err)
+            } else {
+
+                if(foundStudent.grade < 12) {
+                    foundStudent.grade = foundStudent.grade + 1;
+                }
+                foundStudent.schedules.clear();
+                foundStudent.save();
+                resolve(foundStudent)
+
+            }
+        })
+
+    })
+
+};
+
+exports.removeSchedule = (grade, section, semester, dayNumber) => {
+
+    return new Promise((resolve, reject) => {
+
+        studentModel.find({section: section, grade: grade, semester: semester}, (err, foundStudent) => {
 
             console.log(foundStudent[0].schedule[0]);
             if(err) {

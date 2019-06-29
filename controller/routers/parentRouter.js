@@ -1,4 +1,4 @@
-let parentRouter = require("Express").Router();
+let parentRouter = require("express").Router();
 
 let parentModel = require("../../model/parent");
 
@@ -64,7 +64,44 @@ parentRouter.post("/parent/email", (req, res, next) => {
        res.json(err);
    })
 
+});
+
+parentRouter.post("/newparent", (req, res, next) => {
+
+    let passedData = req.body;
+
+    let email = passedData.email;
+    let tel = passedData.tel;
+    let id = passedData.studentIds;
+
+    // let familyContact = {email: passedData.email,
+    //                     token: passedData.token,
+    //                     tel: passedData.tel};
+
+    parentModel.addParent(email, tel, id).then(student => {
+
+        res.json(student)
+
+    }).catch(err => {
+
+        console.log(err);
+        next(err)
+
+    })
+
 })
+
+parentRouter.put("/parent", (req, res, next) => {
+
+   let passedData = req.body;
+
+   let parent = {fname: passedData.fname,
+                lname: passedData.lname,
+                relation: passedData.relation,
+                email: passedData.email,
+                password: passedData.password}
+
+});
 
 parentRouter.get("/parents", (req, res, next) => {
 

@@ -2,6 +2,7 @@ let mongoose = require("mongoose");
 
 let scheduleSchema = new mongoose.Schema({
     year: Number,
+    grade: Number,
     semester: Number,
     day: String,
     dayNumber: Number,
@@ -9,41 +10,12 @@ let scheduleSchema = new mongoose.Schema({
     program: [{
             period: Number,
             courseName: String,
+            teacherId: mongoose.Schema.Types.ObjectId,
             teacherName: String
         }],
-    // students: [{
-    //     student: {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: "student"
-    //     }
-    // }]
-
-    // schedule: [{year: [{year: Number,
-    //                     semester: Number,
-    //                     day: [{
-    //                         day: Number,
-    //                         name: String,
-    //                         schedule: [{
-    //                                 section: String,
-    //                                 period: [{
-    //                                         period: Number,
-    //                                         courseName: String,
-    //                                         teacherName: String
-    //                                        }]
-    //                                 }]
-    //                         }]
-    //                     }]
-    //             }]
-
-    // year: String,
-    // section: String,
-    // day: Date,
-    // program: [
-    //     {
-    //         course: String,
-    //         period: String,
-    //     }
-    // ]
+    students: [{
+        studentId: mongoose.Schema.Types.ObjectId
+    }]
 });
 
 let scheduleModel = mongoose.model("schedule", scheduleSchema);

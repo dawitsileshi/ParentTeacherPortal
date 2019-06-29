@@ -8,6 +8,12 @@ let studentRouter = require("./controller/routers/studentRouter");
 let gradeRouter = require("./controller/routers/gradeRouter");
 let scheduleRouter = require("./controller/routers/scheduleRouter");
 let parentRouter = require("./controller/routers/parentRouter");
+let teacherRouter = require("./controller/routers/teacherRouter");
+let commonRouter = require("./controller/routers/commonRouter");
+let registrarRouter = require("./controller/routers/registrarRouter");
+let directorRouter = require("./controller/routers/directorRouter");
+let eventRouter = require("./controller/routers/eventRouter");
+
 let student = require("./model/schemas/studentSchema");
 //let noticeRouter = require("./routers/noticeRouter");
 
@@ -34,6 +40,11 @@ app.use("/api", studentRouter);
 app.use("/api", gradeRouter);
 app.use("/api", scheduleRouter);
 app.use("/api", parentRouter);
+app.use("/api", teacherRouter);
+app.use("/api", commonRouter);
+app.use("/api", registrarRouter);
+app.use("/api", directorRouter);
+app.use("/api", eventRouter);
 
 app.use("/home", (req, res, next) => {
 
@@ -41,7 +52,6 @@ app.use("/home", (req, res, next) => {
     res.render("index");
 
 });
-
 
 app.use("/new_student", (req, res, next) => {
 
@@ -53,16 +63,18 @@ app.use("/new_student", (req, res, next) => {
 
 app.use("/schedules", (req, res, next) => {
 //
+    console.log("here at schedules")
     let teacher = [{name: "Kebede"},
         {name: "Abebe"},
         {name: "Alemayehu"}];
-    res.render("pages/director/new_schedule", {teacher: teacher});
+    // res.json(teacher)
+    res.render("director/newSchedule", {teacher: teacher});
 //
 });
 
 app.use("/new_teacher", (req, res, next) => {
 
-    res.render("pages/account/teacherRegister");
+    res.render("teacher/teacherRegister", {message: ""});
 
 });
 
@@ -72,13 +84,31 @@ app.use("/teacher_home", (req, res, next) => {
 
 });
 
-app.use("/attendance", (req, res, next) => {
+app.use("/teacher/attendance/:id", (req, res, next) => {
+
+    // let students = [];
+    // res.render("teacher/attendance", {students: students, periods: [1, 2, 3]})
+    // let id = req.params.id;
+    // console.log(id);
+    // student.find({}, (err, foundStudents) => {
+    //     if(err) {
+    //         next(err);
+    //     } else {
+    //         res.render("teacher/attendance", {students: foundStudents});
+    //     }
+    // })
+    // res.render("teacher/attendance");
+
+});
+// TODO: back authentication
+// app.use("grade", )
+app.use("/teacher/grade/", (req, res, next) => {
 
     student.find({}, (err, foundStudents) => {
         if(err) {
             next(err);
         } else {
-            res.render("teacher/attendance", {students: foundStudents});
+            res.render("teacher/grade", {students: foundStudents});
         }
     })
     // res.render("teacher/attendance");
@@ -87,7 +117,7 @@ app.use("/attendance", (req, res, next) => {
 
 app.use("/login", (req, res, next) => {
 
-    res.render("login")
+    res.render("login", {message: ""})
 
 });
 
@@ -102,5 +132,42 @@ app.use("/medical", (req, res, next) => {
     res.render("nurse/enter_medical")
 
 });
+
+app.use("/teacher/enterinfo", (req, res, next) => {
+
+    res.render("registrar/enterTeacherInfo");
+
+});
+
+app.use("/forgotPassword", (req, res, next) => {
+
+
+    res.render("forgotpassword");
+});
+
+app.use("/teacher/createAccount", (req, res, next) => {
+
+    res.render("teacher/teacherRegister", {message: ""});
+
+});
+
+app.use("/registrar/register", (req, res, next) => {
+
+    res.render("register", {message: "please start your username with <b>'reg/</b>"})
+
+});
+
+
+app.use("/director/register", (req, res, next) => {
+
+    res.render("register", {message: "please, start your username with <b> dir/ </b>"})
+
+});
+// app.post("/login", (req, res, next) => {
+//
+//     res.json("Hello")
+//     console.log("login");
+//
+// })
 
 module.exports = app;

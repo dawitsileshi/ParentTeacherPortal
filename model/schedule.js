@@ -1,62 +1,182 @@
 let scheduleModel = require("./schemas/scheduleSchema");
 let studentModel = require("./schemas/studentSchema");
+let teacherModel = require("./schemas/teacherSchema");
 
 exports.addSchedule = (schedule, year, section, scheduleForTheStudent) => {
 
-    console.log(JSON.stringify(scheduleForTheStudent), section + " " + year);
     return new Promise((resolve, reject) => {
 
-        // let students = [];
-        // studentModel.find({section: section, year: year}, (err, foundStudents) => {
-        //     for (let i = 0; i < foundStudents.length; i++) {
-        //         let student = foundStudents[i];
-        //         let studentId = {student: student._id};
-        //         students.push(studentId)
-        //     }
-        // });
-
-        schedule.students = students;
-        scheduleModel(schedule).save((err, savedSchedule) => {
+        scheduleModel.findOne({day: schedule.day, year: year, section: section}, (err, foundSchedule) => {
 
             if(err) {
+
                 reject(err)
+
             } else {
 
-                studentModel.find({section: section, year: year}, (err, foundStudents) => {
+                if(foundSchedule !== null) {
 
-                    if (foundStudents.length !== 0) {
+                    resolve("Schedule already exists")
 
-                        for (let i = 0; i < foundStudents.length; i++) {
+                } else {
 
-                            let student = foundStudents[i];
+                    let students = [];
+                    let teacherIds = [];
+                    studentModel.find({section: section, year: year}, (err, foundStudents) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            for (let i = 0; i < foundStudents.length; i++) {
+                                let student = foundStudents[i];
+                                let studentId = {studentId: student._id};
+                                schedule.students.push(studentId);
+                                students.push(student._id);
+                            }
 
-                            console.log("The length is", student.year + " " + year);
-
-                            // if (student.year === Number(year) && student.section === section) {
-
-                                // console.log("Arrived Here");
-
-                                student.schedule.push(scheduleForTheStudent);
-
-                                student.save();
-
+                            for (let i = 0; i < schedule.program.length; i++) {
+                                let singleProgram = schedule.program[i];
+                                let teacherId = singleProgram.teacherId;
+                                teacherIds.push(teacherId)
+                            }
+                            //     teacherModel.findOne({_id: teacherId}, (err, foundTeacher) => {
+                            //
+                            //         if (err) {
+                            //             reject(err);
+                            //         } else {
+                            //
+                            //             console.log(foundTeacher);
+                            //             // let students = [];
+                            //             for (let j = 0; j < students.length; j++) {
+                            //                 foundTeacher.students.push({studentId: students[j]});
+                            //             }
+                            //             foundTeacher.save();
+                            //
+                            //             console.log("Teh found teacher is " + foundTeacher);
+                            //         }
+                            //
+                            //     })
+                            //
                             // }
 
+                            scheduleModel(schedule).save((err, savedSchedule) => {
+
+                                if (err) {
+                                    reject(err)
+                                } else {
+                                    // if(foundStudents.length !== 0) {
+
+                                    for (let i = 0; i < foundStudents.length; i++) {
+
+                                        let student = foundStudents[i];
+
+                                        student.schedules.push({scheduleId: savedSchedule._id});
+
+                                        student.save();
+
+                                    }
+
+                                    // for (let i = 0; i < students.length; i++) {
+
+                                    for (let i = 0; i < teacherIds.length; i++) {
+
+                                        teacherModel.findOne({_id: teacherIds[i]}, (err, foundTeacher) => {
+
+                                            if (err) {
+                                                reject(err);
+                                            } else {
+
+                                                foundTeacher.schedules.push({scheduleId: savedSchedule._id});
+
+                                                let alreadyExistingStudents = foundTeacher.students;
+
+                                                for (let j = 0; j < alreadyExistingStudents.length; j++) {
+
+                                                    let studentId = alreadyExistingStudents[j].studentId;
+
+                                                    for (let j = 0; j < students.length; j++) {
+
+                                                        if (String(studentId) !== String(students[j])) {
+                                                            foundTeacher.students.push({studentId: students[j]})
+                                                        }
+
+                                                    }
+                                                }
+
+                                                foundTeacher.save();
+
+                                            }
+                                        })
+                                    }
+                                    // }
+
+                                    // }
+                                    // studentModel.find({section: section, year: year}, (err, foundStudents) => {
+                                    //
+                                    //     if (foundStudents.length !== 0) {
+                                    //
+                                    //         for (let i = 0; i < foundStudents.length; i++) {
+                                    //
+                                    //             let student = foundStudents[i];
+                                    //
+                                    //             console.log("The length is", student.year + " " + year);
+                                    //
+                                    //             // if (student.year === Number(year) && student.section === section) {
+                                    //
+                                    //             // console.log("Arrived Here");
+                                    //
+                                    //             student.schedule.push(scheduleForTheStudent);
+                                    //
+                                    //             student.save();
+                                    //
+                                    //             // }
+                                    //
+                                    //         }
+                                    //
+                                    //     }
+                                    //
+                                    // });
+
+                                    resolve(savedSchedule)
+
+                                }
+
+                            })
                         }
+                    })
+                }
+            }
+        });
+    });
 
-                    }
+// console.log(JSON.stringify(scheduleForTheStudent), section + " " + year);
+        // console.log("the main schedule", schedule);
+        // console.log("the student schedule", scheduleForTheStudent)
 
-                });
+        // schedule.students = students;
 
-                resolve(savedSchedule)
 
+
+};
+
+exports.findSchedule = (day, year, section, semester) => {
+
+    return new Promise((resolve, reject) => {
+
+        scheduleModel.find({day: day, year: year, section: section, semester: semester}, (err, foundSchedule) => {
+
+            if(err) {
+
+                reject(err)
+
+            } else {
+                resolve(foundSchedule)
             }
 
         })
 
     })
 
-};
+}
 
 exports.addPeriod = (period, year, section, semester, day) => {
 
@@ -139,6 +259,24 @@ exports.listAllSchedules = () => {
 
 };
 
+exports.scheduleById = id => {
+
+    return new Promise((resolve, reject) => {
+
+        scheduleModel.findOne({_id: id}, (err, foundSchedule) => {
+
+            if(err) {
+                reject(err)
+            } else {
+                resolve(foundSchedule)
+            }
+
+        })
+
+    })
+
+};
+
 exports.listByYear = (year) => {
 
     return new Promise((resolve, reject) => {
@@ -208,16 +346,67 @@ exports.removeSchedule = (section, year, semester, dayNumber) => {
 
 };
 
+function deleteFromStudents(deletedSchedule) {
+
+    studentModel.find({year: deletedSchedule.year, section: deletedSchedule.section}, (err, foundStudent) => {
+
+        if(err) {
+
+        } else {
+            for (let i = 0; i < foundStudent.length; i++) {
+
+                let schedules = foundStudent[i].schedules;
+                for (let j = 0; j < schedules.length; j++) {
+                    let scheduleId = schedules[j].scheduleId;
+                    if(String(scheduleId) === String(deletedSchedule._id)) {
+                        schedules.splice(j, 1);
+                    }
+
+                }
+                foundStudent[i].save()
+            }
+            console.log("The found students", foundStudent)
+        }
+
+    })
+
+}
+
 exports.removeScheduleById = id => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findByIdAndRemove(id).exec((err, foundSchedule) => {
+        scheduleModel.findByIdAndRemove(id).exec((err, deletedSchedule) => {
 
             if(err) {
                 reject(err)
             } else {
-                resolve(foundSchedule)
+                deleteFromStudents(deletedSchedule);
+                console.log("The deleted schedule", deletedSchedule);
+                let program = deletedSchedule.program;
+                for (let i = 0; i < program.length; i++) {
+
+                    let teacherId = program[i].teacherId;
+                    teacherModel.findOne({_id: teacherId}, (err, foundTeacher) => {
+                        if(err) {
+                            reject(err)
+                        } else {
+                            let schedules = foundTeacher.schedules;
+                            for (let j = 0; j < schedules.length; j++) {
+                                let scheduleId = schedules[j].scheduleId;
+                                if(String(scheduleId) === String(id)) {
+                                    schedules.splice(j, 1);
+                                }
+
+                            }
+                            foundTeacher.save();
+                            console.log("The found teacher", foundTeacher)
+                        }
+                    });
+
+                }
+
+                resolve(deletedSchedule)
             }
 
         })
@@ -332,6 +521,27 @@ function scheduleForTheStudent(schedule) {
     return scheduleForTheStudent;
 }
 
+exports.editScheduleById = (id, schedule) => {
+
+    return new Promise((resolve, reject) => {
+
+        scheduleModel.findOneAndUpdate({_id: id}, schedule, {new: true}, (err, updatedSchedule) => {
+
+            if(err) {
+
+                reject(err)
+
+            } else {
+
+                resolve(updatedSchedule)
+
+            }
+
+        })
+
+    })
+
+}
 exports.editSchedule = (schedule, id, year, semester, section) => {
 
     return new Promise((resolve, reject) => {
@@ -378,12 +588,13 @@ exports.updateStudent = (section, year) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findOne({section: section, year}, (err, foundSchedule) => {
+        scheduleModel.findOne({section: section, year: year}, (err, foundSchedule) => {
 
             if(err) {
                 reject(err)
             } else {
-                if (foundSchedule.length > 0) {
+                if (foundSchedule !== null) {
+                    // if(foundSchedule.length > 0) {
                     studentModel.find({section: section, year: year}, (err, foundStudent) => {
                         if (err) {
                             reject(err)

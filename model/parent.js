@@ -42,10 +42,40 @@ exports.registerParent = (passedData, email, tokens) => {
                 reject({message: "No students found with that email"})
             } else {
 
-                if (foundStudent.length !== tokens.length || (foundStudent.length > 1 && typeof tokens === "string")) {
+                if((typeof tokens === "string" && foundStudent.length > 1) ||
+                    (typeof tokens === "object" && (tokens.length !== foundStudent.length))) {
                     reject({message: "Please insert all tokens sent to you by email"})
-                } else {
+
+                }
+                // if (typeof tokens === "string") {
+                //
+                //     if (foundStudent.length > 1) {
+                //
+                //         reject({message: "Please insert all tokens sent to you by email"})
+                //
+                //     }
+                //
+                // } else if(typeof tokens === "object") {
+                //
+                //     if (tokens.length !== foundStudent.length) {
+                //         console.log(tokens.length + " " + foundStudent.length);
+                //         reject({message: "Please insert all tokens sent to you by email"})
+                //
+                //     }
+                //
+                // }
+
+                // if(typeof tokens === "string" && foundStudent.length > 1) {
+                //     reject({message: "Please insert all tokens sent to you by email"})
+                //
+                // } else
+                // if (foundStudent.length !== tokens.length || (foundStudent.length > 1 && typeof tokens === "string")) {
+                //     reject({message: "Please insert all tokens sent to you by email"})
+                // }
+
+                else {
                     // let ids = [];
+                    console.log("arrived here");
                     for (let i = 0; i < foundStudent.length; i++) {
                         let familyContact = foundStudent[i].familyContact;
                         for (let j = 0; j < familyContact.length; j++) {
@@ -191,12 +221,56 @@ exports.registerParent = (passedData, email, tokens) => {
                         resolve(savedStudent);
                     }
                 })
+
             }
-        }
+            }
             //
             // }
         });
 
+
+    })
+
+};
+
+exports.addParent = (email, tel, ids) => {
+
+    let newIds = [];
+
+    if(typeof ids === "string") {
+        newIds.push(ids)
+    } else {
+        newIds = ids;
+    }
+
+    return new Promise((resolve, reject) => {
+
+        console.log(ids)
+        for (let i = 0; i < newIds.length; i++) {
+
+        studentModel.findOne({_id: newIds[i]}, (err, foundStudent) => {
+        console.log(foundStudent);
+
+            if(err) {
+                reject(err)
+            } else {
+
+                let familyContact = foundStudent.familyContact;
+
+                let token = familyContact[0].token;
+
+                let newFamilyContact = {email: email,
+                                        token: token,
+                                        tel: tel};
+
+                console.log(newFamilyContact)
+                familyContact.push(newFamilyContact);
+                foundStudent.save();
+            }
+
+        });
+            resolve("successful");
+        }
 
     })
 
@@ -258,7 +332,7 @@ exports.sendEmail = () => {
                     let student = foundStudents[i];
                     let familyContact = student.familyContact;
                     for (let j = 0; j < familyContact.length; j++) {
-                        sendEmail(familyContact[j].email, familyContact[j]._id, student.name).then(info => {
+                        sendEmail(familyContact[j].email, familyContact[j].token, student.name).then(info => {
                             resolve("Successfully Sent to " + familyContact[j].email);
                         }).catch(err => {
                             reject(err)
@@ -273,23 +347,23 @@ exports.sendEmail = () => {
 
 };
 
-function sendEmail(email, id, name) {
+function sendEmail(email, token, name) {
 
     return new Promise((resolve, reject) => {
 
         let transporter = nodemail.createTransport({
             service: "gmail",
             auth: {
-                user: "dawitsileshi45@gmail.com",
-                pass: "photoshopcs6"
+                user: "mussie2000mt@gmail.com",
+                pass: ""
             }
         });
         transporter.sendMail({
             from: "Student Portal",
             to: "dawitsileshi45@gmail.com",
             subject: "Token for Creating Account",
-            text: "Here is the token for " + name + ": " + id,
-            html: "<p>Hello, here is the token for" + id + "</p>"
+            text: "Here is the token for " + name + ": " + token,
+            html: "<p>Hello, here is the token for" + token + "</p>"
         }, (err, info) => {
             if(err) {
                 reject(err);

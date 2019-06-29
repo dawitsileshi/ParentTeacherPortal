@@ -19,45 +19,44 @@
 
 <body>
     <div>
-        <nav class="navbar navbar-light navbar-expand-md navigation-clean">
-            <div class="container"><a class="navbar-brand" href="#">Company Name</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+            <div class="container"><a href="#" class="navbar-brand logo">Mekelle University Community School</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse"
-                    id="navcol-1">
+                     id="navcol-1">
                     <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item" role="presentation"><a class="nav-link active" href="#">Home</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact Us</a></li>
-                        <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Options</a>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
-                        </li>
+                        <li role="presentation" class="nav-item"><a href="index.ejs" id="homeId" class="nav-link active">Home</a></li>
+                        <li role="presentation" class="nav-item"><a href="/new_student" id="manageStudentId" class="nav-link">Student</a></li>
+                        <li role="presentation" class="nav-item"><a href="/teacher/enterinfo" id="manageTeacherId" class="nav-link">Teacher</a></li>
+                        <!--<li role="presentation" class="nav-item"><a href="contact-us.ejs" class="nav-link">Contact Us</a></li>-->
+                        <li role="presentation" class="nav-item"><a href="/login" class="nav-link">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </div>
-    <div class="register-photo">
+    <div class="register-photo" style="margin-top: 50px">
         <div class="form-container">
             <div class="image-holder"></div>
             <form method="post">
-                <h2 class="text-center"><strong>Create</strong> an account.</h2>
+                <h2 class="text-center"><strong>Student</strong> Registration</h2>
                 <div class="form-group"><input type="text" name="fname" placeholder="first name" class="form-control" required/></div>
                 <div class="form-group"><input class="form-control" type="text" name="lname" placeholder="last name" required/></div><div class="form-group"><input type="number" name="age" placeholder="age" class="form-control" /></div>
                 <div class="form-group"><div class="form-check"><input type="radio" name="gender" value="Male" class="form-check-input" id="formCheck-1" required/><label class="form-check-label" for="formCheck-1">Male</label></div><div class="form-check"><input type="radio" class="form-check-input" name="gender" value="Female" id="formCheck-2" /><label class="form-check-label" for="formCheck-2">Female</label></div></div>
-                <div class="form-group"><input type="number" name="year" placeholder="year" class="form-control" required/></div>
+                <div class="form-group"><input type="number" name="grade" placeholder="grade" class="form-control" max="12" min="1" required/></div>
                 <div class="form-group"><input type="text" name="section" placeholder="section" class="form-control" required/></div>
                 <h5>Family Contact</h5>
                 <div class="form-group"><input type="email" name="familyEmail" placeholder="email" class="form-control" required/></div>
                 <div class="form-group"><input type="tel" name="familyTel" placeholder="tel" class="form-control" required/></div>
                 <div class="form-group"><input type="file" name="pic" required></div>
-                <div class="form-group"><button formaction="/api/student" class="btn btn-primary btn-block" type="submit">Sign Up</button></div>
+                <div class="form-group"><button formaction="/api/student" class="btn btn-primary btn-block" type="submit">Register</button></div>
             </form>
         </div>
     </div>
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-    <script src="../assets/js/smoothproducts.min.js"></script>
-    <script src="../assets/js/theme.js"></script>
+    <script src="/js/smoothproducts.min.js"></script>
+    <script src="/js/theme.js"></script>
 </body>
 
 </html>

@@ -1,14 +1,14 @@
 let mongoose = require("mongoose");
 
 let studentSchema = new mongoose.Schema({
-    // id: String,
+    idNumber: String,
     fname: String,
     lname: String,
     pic: {
         data: Buffer,
         contentType: String
     },
-    year: Number,
+    grade: Number,
     age: Number,
     gender: String,
     section: String,
@@ -27,8 +27,8 @@ let studentSchema = new mongoose.Schema({
             default: Date.now()
         }
     }],
-    // another total and average variables must be added to get the value of the whole year assessment, the current one only handles semester values
-    grade: [{year: Number,
+    // another total and average variables must be added to get the value of the whole grade assessment, the current one only handles semester values
+    result: [{year: Number,
         semester: [{semester: Number,
                     results: [{courseName: String,
                                 quiz: Number,
@@ -40,14 +40,9 @@ let studentSchema = new mongoose.Schema({
                     average: Number
                     }]
             }],
-    schedule: [{day: String,
-                dayNumber: Number,
-                program: [{
-                    period: Number,
-                    courseName: String,
-                    teacherName: String
-                }]
-            }]
+    schedules: [{
+        scheduleId: mongoose.Schema.Types.ObjectId
+    }],
 });
 
 let studentModel = new mongoose.model("student", studentSchema);

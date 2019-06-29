@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/css/smoothproducts.css">
+</head>
+
+<body><nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+    <div class="container"><a href="#" class="navbar-brand logo">Mekelle University Community School</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                <li role="presentation" class="nav-item"><a id="homeId" href="" class="nav-link active">Home</a></li>
+                <li role="presentation" class="nav-item"><a id="scheduleId" href="/api/listSchedules" class="nav-link">Schedules</a></li>
+                <li role="presentation" class="nav-item"><a id="eventsId" href="/api/listEvents" class="nav-link">Events</a></li>
+                <li role="presentation" class="nav-item"><a id="studentsId" href="/api/manageStudents" class="nav-link">Students</a></li>
+                <li role="presentation" class="nav-item"><a id="registrarsId" href="/registrar/register" class="nav-link">Registrar</a></li>
+            </ul>
+            <span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="/login">Log out</a></span>
+
+        </div>
+    </div>
+</nav>
+<!--<main class="page landing-page"><section class="clean-block clean-hero" style="background-image:url('/element5-digital-352043-unsplash.jpg');color:rgba(9, 162, 255, 0.85);">-->
+<section class="clean-block clean-form">
+    <div class="container">
+        <div class="block-heading">
+            <h2 class="text-info">New Event</h2>
+        </div>
+        <form class="form-group" method="post" action="/api/event">
+            <section class="container" id="eventSectionId">
+                <div class="row">
+                    <div class="col mb-4">
+                        <label for="addSchedules">Today</label><input name="createdDate" type="date" id="addSchedules" class="form-control" required>
+                    </div>
+
+                    <div class="col mb-4">
+                        <label for="listSchedules">When</label><input type="date" name="when" id="listSchedules" value=<%=event.when%> class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-4">
+                        <     >Title
+                            <input type="text" class="form-control" name="title" value=<%=event.title%> required>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group shadow-textarea">
+                    <label for="exampleFormControlTextarea6">Description</label>
+                    <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" name="description" rows="4" placeholder="The Event is about . . . . ." required ><%=event.description%> </textarea>
+                </div>
+                <!--<div class="row text-center">-->
+                    <!--<div class="col">-->
+                        <!--<label>Year:-->
+                            <!--<input type="number" name="grade" max="12" min="1" class="form-control">-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="col">-->
+                        <!--<label id="sectionLabelId">Section:-->
+                            <!--<div class="row">-->
+
+                                <!--<label class="col">A-->
+                                    <!--<input type="checkbox" name="section" value="A">-->
+                                <!--</label>-->
+                                <!--<label class="col">B-->
+                                    <!--<input type="checkbox" name="section" value="B">-->
+                                <!--</label>-->
+                                <!--<label class="col">C-->
+                                    <!--<input type="checkbox" name="section" value="C">-->
+                                <!--</label>-->
+                                <!--<label class="col">D-->
+                                    <!--<input type="checkbox" name="section" value="D">-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</label>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row text-center" id="buttonRowId">-->
+                    <!--<div class="col mb-4">-->
+                        <!--<button type="button" class="btn btn-secondary" id="addYearButtonId">Add Year</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="text-center">
+                    <button type="submit" class="btn-lg btn-primary" id="submitEventButtonId">Submit</button>
+                </div>
+            </section>
+        </form>
+        </div>
+</section>
+<!--<div class="container">-->
+
+    <!--<div class="form-group shadow-textarea">-->
+        <!--<label for="exampleFormControlTextarea6">Shadow and placeholder</label>-->
+        <!--<textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write something here..."></textarea>-->
+    <!--</div>-->
+
+    <!--&lt;!&ndash;Textarea with icon prefix&ndash;&gt;-->
+    <!--<div class="md-form mb-4 pink-textarea active-pink-textarea">-->
+        <!--<i class="fas fa-angle-double-right prefix"></i>-->
+        <!--<textarea id="form21" class="md-textarea form-control" rows="3"></textarea>-->
+        <!--<label for="form21">Material textarea with a colorful prefix on :focus state</label>-->
+    <!--</div>-->
+
+    <!--&lt;!&ndash;Textarea with icon prefix&ndash;&gt;-->
+    <!--<div class="md-form amber-textarea active-amber-textarea">-->
+        <!--<i class="fas fa-pencil-alt prefix"></i>-->
+        <!--<textarea id="form22" class="md-textarea form-control" rows="3"></textarea>-->
+        <!--<label for="form22">Material textarea with a colorful prefix on :focus state</label>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;Textarea with icon prefix&ndash;&gt;-->
+    <!--<div class="md-form mb-4 pink-textarea active-pink-textarea-2">-->
+        <!--<i class="fas fa-angle-double-right prefix"></i>-->
+        <!--<textarea id="form23" class="md-textarea form-control" rows="3"></textarea>-->
+        <!--<label for="form23">Material textarea with an always colorful prefix</label>-->
+    <!--</div>-->
+
+    <!--&lt;!&ndash;Textarea with icon prefix&ndash;&gt;-->
+    <!--<div class="md-form amber-textarea active-amber-textarea-2">-->
+        <!--<i class="fas fa-pencil-alt prefix"></i>-->
+        <!--<textarea id="form24" class="md-textarea form-control" rows="3"></textarea>-->
+        <!--<label for="form24">Material textarea with an always colorful prefix</label>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</section>-->
+<!--</main>-->
+<!--<footer class="page-footer dark">-->
+    <!--<div class="footer-copyright">-->
+        <!--<p>© 2018 Copyright Text</p>-->
+    <!--</div>-->
+<!--</footer>-->
+<script src="/js/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="/js/smoothproducts.min.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/manageEvents.js"></script>
+<script src="/js/directorLinking.js"></script>
+
+</body>
+
+</html>
