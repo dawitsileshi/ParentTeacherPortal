@@ -230,13 +230,31 @@ exports.updateStudentInfo = (student, id) => {
 
     return new Promise((resolve, reject) => {
 
+        studentModel.findOne({idNumber: id}, (err, foundStudent) => {
 
+            if(err) {
+                reject(err)
+            } else {
+                foundStudent.fname = student.fname;
+                foundStudent.lname = student.lname;
+                foundStudent.age = student.age;
+                foundStudent.gender = student.gender;
+                foundStudent.grade = student.grade;
+                foundStudent.section = student.section;
+                foundStudent.familyContact[0].email= student.familyEmail;
+                foundStudent.familyContact[0].tel= student.tel;
+                foundStudent.save();
+                resolve(foundStudent)
+
+            }
+
+        })
 
     })
 
 };
 
-exports.listById = id => {
+exports.listByIdNumber = id => {
 
   return new Promise((resolve, reject) => {
 
@@ -255,6 +273,25 @@ exports.listById = id => {
 
 };
 
+
+exports.listById = id => {
+
+    return new Promise((resolve, reject) => {
+
+        studentModel.findOne({_id: id}, (err, foundStudent) => {
+            console.log("passedData", foundStudent);
+
+            if(err) {
+                reject(err)
+            } else {
+                resolve(foundStudent)
+            }
+
+        })
+
+    })
+
+};
 exports.promoteStudent = id => {
 
     return new Promise((resolve, reject) => {

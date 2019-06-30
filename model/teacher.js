@@ -170,6 +170,60 @@ exports.fillAttendance = (date, newAttendance, updateAttendance) => {
 
 };
 
+exports.addAttendance = attendance => {
+
+    return new Promise((resolve, reject) => {
+
+        attendanceModel(attendance).save((err, savedAttendance) => {
+
+            if(err) {
+                reject(err)
+            } else {
+                resolve(savedAttendance)
+            }
+
+        })
+
+    })
+
+};
+
+exports.showAttendance = id => {
+
+    return new Promise((resolve, reject) => {
+
+        studentModel.findOne({_id: id}, (err, foundStudent) => {
+
+            let grade = foundStudent.grade;
+            let section = foundStudent.section;
+            attendanceModel.find({"dailyAttendance.grade": grade, "dailyAttendance.section": section}, (err, foundAttendances) => {
+
+                if(err){
+                    reject(err)
+                } else {
+                    for (let i = 0; i < foundAttendances.length; i++) {
+                        let singleAttendance = foundAttendances[i];
+                        let students = singleAttendance.dailyAttendance.students;
+                        for (let j = 0; j < students.length; j++) {
+                            let singleStudent = students[j];
+                            if(String(id) === String(singleStudent.studentId)) {
+                                resolve({courseName: singleAttendance.dailyAttendance.courseName,
+                                        period: singleAttendance.dailyAttendance.period,
+                                        value: singleStudent.value,
+                                        excused: singleStudent.excused})
+                            }
+                        }
+                    }
+                }
+
+            })
+
+
+
+            })
+        });
+
+}
 exports.listAttendanceByDayAndTeacher = (teacherId, date) => {
 
     return new Promise((resolve, reject) => {
@@ -225,23 +279,26 @@ exports.listAttendanceByDayAndStudent = (studentId, date) => {
 
 };
 
-function gather(schedule) {
+function gather(schedule, day) {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findOne({_id: schedule.scheduleId}, (err, foundSchedule) => {
+        scheduleModel.findOne({_id: schedule.scheduleId, day: "Monday"}, (err, foundSchedule) => {
 
             if(err) {
                 reject(err)
             } else {
-                resolve(foundSchedule)
+                // console.log("The found schedules", foundSchedule);
+                // if(foundSchedule !== null) {
+                    resolve(foundSchedule)
+                // }
             }
 
         })
     })
 }
 
-exports.findScheduleInfo = id => {
+exports.findScheduleInfo = (id, day) => {
 
     return new Promise((resolve, reject) => {
 
@@ -256,11 +313,12 @@ exports.findScheduleInfo = id => {
                 let promises = [];
                 let schedules = foundTeacher.schedules;
                 for (let i = 0; i < schedules.length; i++) {
-                    promises.push(gather(schedules[i]));
+                    promises.push(gather(schedules[i], day));
                 }
 
                 // Promise.all()
 
+                console.log("the length of the promises", promises.length)
                 resolve(promises);
             }
         })

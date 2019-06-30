@@ -39,16 +39,75 @@
             <div class="image-holder"></div>
             <form method="post">
                 <h2 class="text-center"><strong>Student</strong> Registration</h2>
-                <div class="form-group"><input type="text" name="fname" placeholder="first name" class="form-control" required/></div>
-                <div class="form-group"><input class="form-control" type="text" name="lname" placeholder="last name" required/></div><div class="form-group"><input type="number" name="age" placeholder="age" class="form-control" /></div>
-                <div class="form-group"><div class="form-check"><input type="radio" name="gender" value="Male" class="form-check-input" id="formCheck-1" required/><label class="form-check-label" for="formCheck-1">Male</label></div><div class="form-check"><input type="radio" class="form-check-input" name="gender" value="Female" id="formCheck-2" /><label class="form-check-label" for="formCheck-2">Female</label></div></div>
-                <div class="form-group"><input type="number" name="grade" placeholder="grade" class="form-control" max="12" min="1" required/></div>
-                <div class="form-group"><input type="text" name="section" placeholder="section" class="form-control" required/></div>
+                <% if(student.fname != "") { %>
+                <div class="form-group">
+                    <input type="text" name="idNumber" placeholder="first name" class="form-control" required value=<%= student.idNumber %> />
+                </div>
+                <% } %>
+
+                <div class="form-group">
+                    <input type="text" name="fname" placeholder="first name" class="form-control" required value=<%= student.fname %> >
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="lname" placeholder="last name" required value=<%= student.lname %> >
+                </div>
+                <div class="form-group">
+                    <input type="number" name="age" placeholder="age" class="form-control" required value=<%= student.age %> />
+                </div>
+                <div class="form-group">
+                    <% if(student.gender == "Male") { %>
+                    <div class="form-check">
+                        <input type="radio" name="gender" value="Male" class="form-check-input" id="formCheck-1" checked/>
+                        <label class="form-check-label" for="formCheck-1">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="gender" value="Female" id="formCheck-2" required/>
+                        <label class="form-check-label" for="formCheck-2">Female</label>
+                    </div>
+                    <% } else if(student.gender == "Female") { %>
+                    <div class="form-check">
+                        <input type="radio" name="gender" value="Male" class="form-check-input" id="formCheck-3" required/>
+                        <label class="form-check-label" for="formCheck-1">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="gender" value="Female" id="formCheck-4" checked/>
+                        <label class="form-check-label" for="formCheck-2">Female</label>
+                    </div>
+                    <% } else { %>
+                    <div class="form-check">
+                        <input type="radio" name="gender" value="Male" class="form-check-input" id="formCheck-5"  required/>
+                        <label class="form-check-label" for="formCheck-1">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="gender" value="Female" id="formCheck-6" required/>
+                        <label class="form-check-label" for="formCheck-2">Female</label>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="grade" placeholder="grade" class="form-control" max="12" min="1" required value=<%= student.grade %> />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="section" placeholder="section" class="form-control" required value=<%= student.section %> >
+                </div>
                 <h5>Family Contact</h5>
-                <div class="form-group"><input type="email" name="familyEmail" placeholder="email" class="form-control" required/></div>
-                <div class="form-group"><input type="tel" name="familyTel" placeholder="tel" class="form-control" required/></div>
-                <div class="form-group"><input type="file" name="pic" required></div>
-                <div class="form-group"><button formaction="/api/student" class="btn btn-primary btn-block" type="submit">Register</button></div>
+                <div class="form-group">
+                    <input type="email" name="familyEmail" placeholder="email" class="form-control" required value=<%= student.familyContact[0]. email %>>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="familyTel" placeholder="tel" class="form-control" required value=<%= student.familyContact[0].tel %> >
+                </div>
+                <div class="form-group">
+                    <input type="file" name="pic" required>
+                </div>
+                <div class="form-group">
+                    <%if(student.fname == "") { %>
+                    <button formaction="/api/student" class="btn btn-primary btn-block" type="submit">Register</button>
+                    <% } else { %>
+                    <button formaction="/api/existingStudent" class="btn btn-primary btn-block" type="submit">Update Account</button>
+                    <% } %>
+
+                </div>
             </form>
         </div>
     </div>

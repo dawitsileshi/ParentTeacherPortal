@@ -57,45 +57,70 @@ teacherRouter.get("/teacher/attendance/:teacherId", (req, res, next) => {
 function extractInfo(id, foundSchedules) {
     let periods = [];
     let course;
-    let years = [];
+    let grades = [];
     let sections = [];
 
+    let data = [];
+
+    // data = [{grade: number,
+    //         sections: [section],
+    //         periods: [period]}]
+
     for (let i = 0; i < foundSchedules.length; i++) {
-        let program = foundSchedules[i].program;
-        if(!years.includes(foundSchedules[i].year)){
-            years.push(foundSchedules[i].year);
-        }
-        if(!sections.includes(foundSchedules[i].section)) {
-            sections.push(foundSchedules[i].section);
-        }
-        for (let j = 0; j < program.length; j++) {
-            let teacherId = program[j].teacherId;
-            if(String(teacherId) === String(id)) {
-                if(!periods.includes(program[j].period)) {
+        if (foundSchedules[i]) {
+            let program = foundSchedules[i].program;
+            let section = foundSchedules[i].section;
+            let grade = foundSchedules[i].grade;
+            // if(!grades.includes(foundSchedules[i].grade)){
+            //     grades.push(foundSchedules[i].grade);
+            // }
+            // if(!sections.includes(foundSchedules[i].section)) {
+            //     sections.push(foundSchedules[i].section);
+            // }
+            for (let j = 0; j < program.length; j++) {
+                let teacherId = program[j].teacherId;
+                if (String(teacherId) === String(id)) {
+                    // if()
+                    // if(!periods.includes(program[j].period)) {
                     periods.push(program[j].period);
+                    // }
+                    course = program[j].courseName;
                 }
-                course = program[j].courseName;
             }
+
+            data.push({
+                course: course,
+                grade: grade,
+                section: section,
+                periods: periods
+            })
+            section = null
+            grade = null
+            course = null
+            periods = []
         }
     }
-
-    return({periods: periods,
-            years: years,
-            sections: sections,
-            course: course})
+    console.log("The data", data);
+    return data;
+    // return({periods: periods,
+    //         grades: grades,
+    //         sections: sections,
+    //         course: course})
 }
 
-teacherRouter.get("/attendance/:id", (req, res, next) => {
+teacherRouter.get("/attendance/teacherInfo/:id", (req, res, next) => {
 
     let id = req.params.id;
 
-    console.log("arrived at attendance")
-
-
-    teacherModel.findScheduleInfo(id).then(foundInfo => {
+    // console.log("came here")
+    teacherModel.findScheduleInfo(id, "Monday").then(foundInfo => {
         Promise.all(foundInfo).then(foundSchedules => {
-           console.log("The teacher info", foundSchedules);
-           res.render("teacher/attendance", {info: extractInfo(id, foundSchedules)})
+            console.log("resolved")
+            // console.log("The teacher info", foundSchedules);
+            // res.json(foundSchedules)
+            // console.log("The extracted info", extractInfo(id, foundSchedules));
+            res.json(extractInfo(id, foundSchedules))
+            // res.render("teacher/attendance", {info: extractInfo(id, foundSchedules)})
         }).catch(err => {
             console.log(err)
         })
@@ -107,6 +132,15 @@ teacherRouter.get("/attendance/:id", (req, res, next) => {
         console.log(err);
 
     })
+
+})
+teacherRouter.get("/attendance/:id", (req, res, next) => {
+
+
+    console.log("arrived at attendance");
+
+    res.render("teacher/attendance");
+
 
 });
 
@@ -154,6 +188,21 @@ teacherRouter.get("/teacher/enterGrade/:id", (req, res, next) => {
 
 });
 
+teacherRouter.get("/showAttendance", (req, res, next) => {
+
+    let passedData = req.body;
+    teacherModel.showAttendance(passedData.id).then(foundAttendance => {
+
+        res.json(foundAttendance)
+
+    }).catch(err => {
+
+        console.log(err);
+        next(err)
+
+    })
+
+})
 teacherRouter.post("/teacher", (req, res, next) => {
 
     // return res.redirect("www.google.com");
@@ -181,6 +230,45 @@ teacherRouter.post("/teacher", (req, res, next) => {
     })
 
 });
+
+teacherRouter.post("/teacher/attendance", (req, res, next) => {
+
+    let passedData = req.body;
+    let currentYear = new Date().getFullYear();
+
+    let students = [];
+
+    let passedAttendance = passedData.attendance;
+    for (let i = 0; i < passedAttendance.length; i++) {
+        let singleAttendance = passedAttendance[i];
+        students.push({studentId: singleAttendance.id,
+                        value: singleAttendance.value,
+                        excused: singleAttendance.excused});
+    }
+    // console.log(students);
+    let attendance = {year: currentYear,
+                    dailyAttendance: {grade: passedData.grade,
+                                    section: passedData.section,
+                                    date: new Date(),
+                                    courseName: passedData.courseName,
+                                    teacherId: passedData.teacherId,
+                                    period: passedData.period,
+                                    students: students
+                    }
+    };
+
+    teacherModel.addAttendance(attendance).then(savedAttendance => {
+        console.log(savedAttendance);
+        res.json(savedAttendance)
+        // res.render("teacher/index", {teacher: {id: passedData.teacherId,
+        //         fname: "Assefa"}});
+    }).catch(err => {
+        console.log(err);
+        next(err);
+    })
+    // console.log(req.body)
+
+})
 
 teacherRouter.post("/attendance/:teacherId", (req, res, next) => {
 
@@ -268,6 +356,7 @@ teacherRouter.post("teacher/mySchedule/:id", (req, res, next) => {
     })
 
 })
+
 teacherRouter.put("/teacher", (req, res, next) => {
 
     console.log("arrived to put")
@@ -288,4 +377,5 @@ teacherRouter.delete("/teacher/:id", (req, res, next) => {
     })
 
 })
+
 module.exports = teacherRouter;

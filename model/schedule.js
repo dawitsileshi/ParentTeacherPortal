@@ -2,11 +2,11 @@ let scheduleModel = require("./schemas/scheduleSchema");
 let studentModel = require("./schemas/studentSchema");
 let teacherModel = require("./schemas/teacherSchema");
 
-exports.addSchedule = (schedule, year, section, scheduleForTheStudent) => {
+exports.addSchedule = (schedule, grade, section, scheduleForTheStudent) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findOne({day: schedule.day, year: year, section: section}, (err, foundSchedule) => {
+        scheduleModel.findOne({day: schedule.day, grade: grade, section: section}, (err, foundSchedule) => {
 
             if(err) {
 
@@ -22,7 +22,7 @@ exports.addSchedule = (schedule, year, section, scheduleForTheStudent) => {
 
                     let students = [];
                     let teacherIds = [];
-                    studentModel.find({section: section, year: year}, (err, foundStudents) => {
+                    studentModel.find({section: section, grade: grade}, (err, foundStudents) => {
                         if (err) {
                             reject(err)
                         } else {
@@ -158,11 +158,11 @@ exports.addSchedule = (schedule, year, section, scheduleForTheStudent) => {
 
 };
 
-exports.findSchedule = (day, year, section, semester) => {
+exports.findSchedule = (day, grade, section, semester) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.find({day: day, year: year, section: section, semester: semester}, (err, foundSchedule) => {
+        scheduleModel.find({day: day, grade: grade, section: section, semester: semester}, (err, foundSchedule) => {
 
             if(err) {
 
@@ -178,11 +178,11 @@ exports.findSchedule = (day, year, section, semester) => {
 
 }
 
-exports.addPeriod = (period, year, section, semester, day) => {
+exports.addPeriod = (period, grade, section, semester, day) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findOne({year: year, section: section, semester: semester, day: day}, (err, foundSchedule) => {
+        scheduleModel.findOne({grade: grade, section: section, semester: semester, day: day}, (err, foundSchedule) => {
 
             console.log("found schedule", foundSchedule);
 
@@ -196,7 +196,7 @@ exports.addPeriod = (period, year, section, semester, day) => {
 
                 foundSchedule.save();
 
-                studentModel.find({year: year, semester: semester, section: section}, (err, foundStudent) => {
+                studentModel.find({grade: grade, semester: semester, section: section}, (err, foundStudent) => {
 
                     console.log("found students", foundStudent);
 
@@ -236,7 +236,7 @@ exports.addPeriod = (period, year, section, semester, day) => {
 
 };
 
-exports.addDay = (period, year, section, semester) => {
+exports.addDay = (period, grade, section, semester) => {
 
 };
 
@@ -277,11 +277,11 @@ exports.scheduleById = id => {
 
 };
 
-exports.listByYear = (year) => {
+exports.listByYear = (grade) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.find({"schedule": {$all: [{"$elemMatch": {year: {$eq: year}}}]}}, (err, foundSchedules) => {
+        scheduleModel.find({"schedule": {$all: [{"$elemMatch": {grade: {$eq: grade}}}]}}, (err, foundSchedules) => {
 
             if(err) {
                 reject(err)
@@ -313,18 +313,18 @@ exports.listBySemester = (semester) => {
 
 };
 
-exports.removeSchedule = (section, year, semester, dayNumber) => {
+exports.removeSchedule = (section, grade, semester, dayNumber) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.remove({section: section, year: Number(year), semester: Number(semester)}, (err, foundSchedule) => {
+        scheduleModel.remove({section: section, grade: Number(grade), semester: Number(semester)}, (err, foundSchedule) => {
 
-            console.log(section + " " + semester + " " + year);
+            console.log(section + " " + semester + " " + grade);
             // foundSchedule.length
             if(err) {
                 reject(err)
             } else {
-                studentModel.find({section: section, year: year, semester: semester}, (err, foundStudents) => {
+                studentModel.find({section: section, grade: grade, semester: semester}, (err, foundStudents) => {
 
                     if(err) {
                         reject(err);
@@ -348,7 +348,7 @@ exports.removeSchedule = (section, year, semester, dayNumber) => {
 
 function deleteFromStudents(deletedSchedule) {
 
-    studentModel.find({year: deletedSchedule.year, section: deletedSchedule.section}, (err, foundStudent) => {
+    studentModel.find({grade: deletedSchedule.grade, section: deletedSchedule.section}, (err, foundStudent) => {
 
         if(err) {
 
@@ -415,11 +415,11 @@ exports.removeScheduleById = id => {
 
 };
 
-exports.removePeriod = (period, semester, year, section, day) => {
+exports.removePeriod = (period, semester, grade, section, day) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findOne({semester: semester, year: year, section: section, day}, (err, foundSchedule) => {
+        scheduleModel.findOne({semester: semester, grade: grade, section: section, day}, (err, foundSchedule) => {
 
             if(err) {
 
@@ -441,7 +441,7 @@ exports.removePeriod = (period, semester, year, section, day) => {
 
                         foundSchedule.save();
 
-                        studentModel.find({year: year, semester: semester, section: section}, (err, foundStudent) => {
+                        studentModel.find({grade: grade, semester: semester, section: section}, (err, foundStudent) => {
 
                             console.log("found students", foundStudent);
 
@@ -542,7 +542,7 @@ exports.editScheduleById = (id, schedule) => {
     })
 
 }
-exports.editSchedule = (schedule, id, year, semester, section) => {
+exports.editSchedule = (schedule, id, grade, semester, section) => {
 
     return new Promise((resolve, reject) => {
 
@@ -551,7 +551,7 @@ exports.editSchedule = (schedule, id, year, semester, section) => {
         if(err) {
             reject(err)
         } else {
-            studentModel.findOneAndUpdate({year: year, semester: semester, section: section}, scheduleForTheStudent(schedule), {new: true}, (err, updatedStudent) => {
+            studentModel.findOneAndUpdate({grade: grade, semester: semester, section: section}, scheduleForTheStudent(schedule), {new: true}, (err, updatedStudent) => {
 
                 console.log("found students", updatedStudent);
 
@@ -565,11 +565,11 @@ exports.editSchedule = (schedule, id, year, semester, section) => {
 };
 
 // TODO: not finished yet, just tired of it
-exports.editProgram = (program, section, year, semester, day, period) => {
+exports.editProgram = (program, section, grade, semester, day, period) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.update({section: section, year: year, semester: semester, day: day, program: {$all: [{"$elemMatch": {period: {$eq: period}}}]}},
+        scheduleModel.update({section: section, grade: grade, semester: semester, day: day, program: {$all: [{"$elemMatch": {period: {$eq: period}}}]}},
             {$set: {program: program}}, {new: true}, (err, updatedProgram) => {
 
             if(err) {
@@ -584,18 +584,18 @@ exports.editProgram = (program, section, year, semester, day, period) => {
 
 };
 
-exports.updateStudent = (section, year) => {
+exports.updateStudent = (section, grade) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findOne({section: section, year: year}, (err, foundSchedule) => {
+        scheduleModel.findOne({section: section, grade: grade}, (err, foundSchedule) => {
 
             if(err) {
                 reject(err)
             } else {
                 if (foundSchedule !== null) {
                     // if(foundSchedule.length > 0) {
-                    studentModel.find({section: section, year: year}, (err, foundStudent) => {
+                    studentModel.find({section: section, grade: grade}, (err, foundStudent) => {
                         if (err) {
                             reject(err)
                         } else {

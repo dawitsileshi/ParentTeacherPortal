@@ -39,6 +39,22 @@ studentRouter.get("/director/manageStudents", (req, res, next) => {
 
 });
 
+studentRouter.get("/addStudents", (req, res, next) => {
+
+    let student = {fname: "",
+                    lname: "",
+        grade: "",
+        age: "",
+        gender: "",
+        section: "",
+        inSchool: "",
+        familyContact:[{email: "",
+                        tel: ""}]};
+
+        res.render("registrar/studentRegister", {student: student})
+
+});
+
 studentRouter.get("/students", (req, res, next) => {
 
     studentModel.listAllStudents().then(foundStudents => {
@@ -170,12 +186,29 @@ studentRouter.get("/student/grade/:id", (req, res, next) => {
 
 });
 
+studentRouter.get("/singleStudent/:id", (req, res, next) => {
+
+    let id = req.params.id;
+
+    studentModel.listById(id).then(foundStudent => {
+
+        // console.log(foundStudent);
+        res.render("registrar/studentRegister", {student: foundStudent});
+
+    }).catch(err => {
+
+        console.log(err);
+        next(err)
+
+    })
+});
+
 studentRouter.post("/student/id", (req, res, next) => {
 
   let passedData = req.body;
   console.log(passedData);
 
-    studentModel.listById(passedData.id).then(foundStudent => {
+    studentModel.listByIdNumber(passedData.id).then(foundStudent => {
 
         res.json(foundStudent)
 
@@ -188,6 +221,22 @@ studentRouter.post("/student/id", (req, res, next) => {
 
 });
 
+studentRouter.post("/existingStudent", (req, res, next) => {
+
+    let passedData = req.body;
+
+    // res.json(passedData);
+    studentModel.updateStudentInfo(passedData, passedData.idNumber).then(updatedStudent => {
+
+        res.json(updatedStudent)
+
+    }).catch(err => {
+
+        console.log(err);
+        next(err)
+    })
+
+});
 studentRouter.post("/students/secgrade", (req, res, next) => {
 
     let passedData = req.body;
@@ -199,9 +248,9 @@ studentRouter.post("/students/secgrade", (req, res, next) => {
 
     // let periods = [1, 2, 3];
 
-    studentModel.listBySectionYear(grade, section).then(foundStudents => {
+    studentModel.listBySectiongrade(grade, section).then(foundStudents => {
 
-        console.log(foundStudents);
+        // console.log(foundStudents);
         res.json(foundStudents)
         // res.render("teacher/attendance", {students: foundStudents, periods: periods})
 
@@ -246,7 +295,7 @@ studentRouter.post("/student", (req, res, next) => {
         familyContact: [{
             email: passedData.familyEmail,
             token: token,
-            tel: passedData.familyTel,
+            tel: passedData.familyTel.toString().replace(" ", ""),
         }],
         schedule:[],
         result: result
@@ -266,6 +315,22 @@ studentRouter.post("/student", (req, res, next) => {
 
 });
 
+studentRouter.post("/singleStudent", (req, res, next) => {
+
+    let id = req.params.id;
+
+    studentModel.listById(id).then(foundStudent => {
+
+        res.render("registrar/studentRegister", {student: foundStudent});
+
+    }).catch(err => {
+
+        console.log(err);
+        next(err)
+
+    })
+
+})
 studentRouter.post("/student/medical", (req, res, next) => {
 
     let passedData = req.body;
@@ -338,6 +403,22 @@ studentRouter.delete("/student", (req, res, next) => {
         console.log(err);
         next(err)
     })
+
+});
+
+studentRouter.delete("/student", (req, res, next) => {
+
+    let id = req.body.id;
+   studentModel.deleteStudent(id).then(deletedStudent => {
+
+       res.json(deletedStudent)
+
+   }).catch(err => {
+
+       console.log(err);
+       next(err)
+
+   })
 
 });
 

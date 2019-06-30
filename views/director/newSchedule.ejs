@@ -2,6 +2,7 @@
 <head>
     <script type="text/javascript" src="/js/addSchedule.js"></script>
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
+
 </head>
 <body>
 <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
@@ -26,6 +27,11 @@
 <form method="post">
     <div class="container">
         <div class="row">
+            <div class="col">
+                <label>Year
+                    <input type="text" class="form-control" id="year" disabled>
+                </label>
+            </div>
             <div class="col">
                 <label>Day:
                     <select name="day" class="form-control" id="day" required>

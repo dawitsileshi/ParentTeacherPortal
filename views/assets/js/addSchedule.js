@@ -1,5 +1,6 @@
 let period = 1;
 
+
 function createViews(i) {
 
     // let teacher = <%-teacher[0].name %>;
@@ -95,6 +96,10 @@ function createViews(i) {
 }
 
 window.onload = function() {
+
+    let year = document.getElementById("year");
+    console.log(year)
+    year.value = new Date().getFullYear();
 
     receiveData();
 
