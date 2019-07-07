@@ -30,12 +30,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 let mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/studentPortal", {useNewUrlParser: true}).then(() => {
-    console.log("Successfully connected to the database");
+mongoose.connect("mongodb+srv://nati:<12345678m>@cluster0-ed1qj.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true}).then(() => {
+    console.log("Successfully connected to the database")
 }).catch(() => {
     console.log("Error connecting to the database");
+})
+// mongoose.connect("mongodb://localhost:27017/studentPortal", {useNewUrlParser: true}).then(() => {
+    // console.log("Successfully connected to the database");
+// }).catch(() => {
+    // console.log("Error connecting to the database");
 
-});
+// });
 app.use("/api", studentRouter);
 app.use("/api", gradeRouter);
 app.use("/api", scheduleRouter);
