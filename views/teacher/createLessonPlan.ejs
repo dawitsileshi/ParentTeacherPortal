@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Second Community School Project</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <script src="/js/ejs.js"></script>
+    <script src="/js/attendance.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/css/smoothproducts.css">
+</head>
+
+<body>
+<div>
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean">
+        <div class="container"><a class="navbar-brand" href="#">Mekelle University Community School</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                 id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="attendanceId" href="attendance/">Attendance</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="scheduleId" href="schedule/">Schedule</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="gradeId" href="grade/">Grade</a></li>
+                    <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Options</a>
+                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                        <!--<span class="navbar-text actions"> <button class="btn btn-light action-button" id="gradeId" role="button">Log out</button></span>-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<section class="clean-block clean-form">
+<div class="container">
+    <div class="block-heading">
+        <h2 class="text-info">Lesson Plan</h2>
+    </div>
+    <form class="form-group" method="post" action="/api/event">
+        <section class="container" id="eventSectionId">
+            <div class="row">
+                <div class="col mb-4">
+                    <label for="addSchedules">Today</label><input name="createdDate" type="date" id="addSchedules" class="form-control" required>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col mb-4">
+                    </label>
+                </div>
+            </div>
+            <div class="form-group shadow-textarea">
+                <label for="exampleFormControlTextarea6">Description</label>
+                <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" name="description" rows="4" placeholder="The Event is about . . . . ." required ></textarea>
+            </div>
+            <!--<div class="row text-center">-->
+            <!--<div class="col">-->
+            <!--<label>Year:-->
+            <!--<input type="number" name="grade" max="12" min="1" class="form-control">-->
+            <!--</label>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+            <!--<label id="sectionLabelId">Section:-->
+            <!--<div class="row">-->
+
+            <!--<label class="col">A-->
+            <!--<input type="checkbox" name="section" value="A">-->
+            <!--</label>-->
+            <!--<label class="col">B-->
+            <!--<input type="checkbox" name="section" value="B">-->
+            <!--</label>-->
+            <!--<label class="col">C-->
+            <!--<input type="checkbox" name="section" value="C">-->
+            <!--</label>-->
+            <!--<label class="col">D-->
+            <!--<input type="checkbox" name="section" value="D">-->
+            <!--</label>-->
+            <!--</div>-->
+            <!--</label>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row text-center" id="buttonRowId">-->
+            <!--<div class="col mb-4">-->
+            <!--<button type="button" class="btn btn-secondary" id="addYearButtonId">Add Year</button>-->
+            <!--</div>-->
+            <!--</div>-->
+            <div class="text-center">
+                <button type="submit" class="btn-lg btn-primary" id="submitEventButtonId">Submit</button>
+            </div>
+        </section>
+    </form>
+</div>
+</section>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="/js/smoothproducts.min.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/teacherLinking.js"></script>
+</body>
+
+</html>

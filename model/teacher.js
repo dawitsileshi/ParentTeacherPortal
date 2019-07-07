@@ -2,7 +2,9 @@ let teacherModel = require("./schemas/teacherSchema");
 let studentModel = require("./schemas/studentSchema");
 let scheduleModel = require("./schemas/scheduleSchema");
 let attendanceModel = require("./schemas/attendanceSchema");
+let lessonPlanModel = require("./schemas/lessonPlanSchema");
 
+let nodemail = require("nodemailer");
 exports.registerTeacher = teacher => {
 
     return new Promise((resolve, reject) => {
@@ -11,12 +13,47 @@ exports.registerTeacher = teacher => {
                 reject(err)
             }else {
                 resolve(savedTeacher);
+                sendEmail(teacher.email, "Here is your link to create your account", "http://localhost:3000/teacher/createAccount/").then(info => {
+                    console.log("successfully sent to the email")
+                }).catch(err => {
+                    console.log(err)
+                })
+            ;
             }
         })
     })
 
 };
 
+function sendEmail(email, text, html) {
+
+    return new Promise((resolve, reject) => {
+
+        let transporter = nodemail.createTransport({
+            service: "gmail",
+            auth: {
+                user: "mussie2000mt@gmail.com",
+                pass: ""
+            }
+        });
+        transporter.sendMail({
+            from: "Student Portal",
+            to: "dawitsileshi45@gmail.com",
+            subject: "Token for Creating Account",
+            text: text,
+            html: html
+        }, (err, info) => {
+            if (err) {
+                reject(err);
+                console.log("The error is", err);
+            } else {
+                resolve(info);
+                console.log("The info ", info);
+                // return info;
+            }
+        });
+    })
+}
 exports.deleteTeacher = id => {
 
     return new Promise((resolve, reject) => {
@@ -224,6 +261,7 @@ exports.showAttendance = id => {
         });
 
 }
+
 exports.listAttendanceByDayAndTeacher = (teacherId, date) => {
 
     return new Promise((resolve, reject) => {
@@ -279,11 +317,11 @@ exports.listAttendanceByDayAndStudent = (studentId, date) => {
 
 };
 
-function gather(schedule, day) {
+function gather(schedule) {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.findOne({_id: schedule.scheduleId, day: "Monday"}, (err, foundSchedule) => {
+        scheduleModel.findOne({_id: schedule.scheduleId}, (err, foundSchedule) => {
 
             if(err) {
                 reject(err)
@@ -298,7 +336,7 @@ function gather(schedule, day) {
     })
 }
 
-exports.findScheduleInfo = (id, day) => {
+exports.findScheduleInfo = (id) => {
 
     return new Promise((resolve, reject) => {
 
@@ -313,7 +351,7 @@ exports.findScheduleInfo = (id, day) => {
                 let promises = [];
                 let schedules = foundTeacher.schedules;
                 for (let i = 0; i < schedules.length; i++) {
-                    promises.push(gather(schedules[i], day));
+                    promises.push(gather(schedules[i]));
                 }
 
                 // Promise.all()
@@ -327,6 +365,7 @@ exports.findScheduleInfo = (id, day) => {
     })
 
 };
+
 exports.loginTeacher = (username, email, password) => {
 
     return new Promise((resolve, reject) => {
@@ -337,7 +376,7 @@ exports.loginTeacher = (username, email, password) => {
                 reject(err)
             } else {
                 if(foundTeacher === null) {
-                    reject("Wrong username or password")
+                    resolve("Wrong username or password")
                 } else {
                     // console.log(foundTeacher);
                     resolve(foundTeacher);
@@ -411,6 +450,24 @@ exports.listByCourse = courseName => {
 
 };
 
+exports.createLessonPlan = (teacherId) => {
+
+    return new Promise((resolve, reject) => {
+
+        let lessonPlan = {teacherId: teacherId};
+        lessonPlanModel(lessonPlan).save((err, savedLessonPlan) => {
+
+            if(err) {
+                reject(err)
+            } else {
+                resolve(savedLessonPlan)
+            }
+
+        })
+
+    })
+
+};
 // exports.removeStudents = id => {
 //
 //     return new Promise((resolve, reject) => {
@@ -455,3 +512,13 @@ exports.listByCourse = courseName => {
 //     })
 //
 // };
+
+exports.listMySchedule = id => {
+
+    return new Promise((resolve, reject) => {
+
+        // teacherModel
+
+    })
+
+}

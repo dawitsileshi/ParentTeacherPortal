@@ -1,109 +1,222 @@
-let sectionSelect = document.getElementById("section");
-let gradeSelect = document.getElementById("grade");
+// let sectionSelect = document.getElementById("section");
+// let gradeSelect = document.getElementById("grade");
+//
+// let quizCheck = document.getElementById("quizCheck");
+// let midCheck = document.getElementById("midCheck");
+// let assignmentCheck = document.getElementById("assignmentCheck");
+// let finalCheck = document.getElementById("finalCheck");
+//
+// let classCheck = document.getElementById("classWorkCheck");
+// let homeCheck = document.getElementById("homeWorkCheck");
+// let groupCheck = document.getElementById("groupWorkCheck");
+// let individualCheck = document.getElementById("individualCheck");
+// let quiz1Check = document.getElementById("quiz1Check");
+// let quiz2Check = document.getElementById("quiz2Check");
+// let quiz3Check = document.getElementById("quiz3Check");
+// let grade, section;
+// let searchButton = document.getElementById("searchButton");
+//
+let lastCheckedNodeName = null;
+let lastCheckedNodeID;
+let selectedAssessment;
+let selectedIndex;
 
-let quizCheck = document.getElementById("quizCheck");
-let midCheck = document.getElementById("midCheck");
-let assignmentCheck = document.getElementById("assignmentCheck");
-let finalCheck = document.getElementById("finalCheck");
+let section;
+let grade;
+let assessmentInfo = [{name: "class work", max: "5"},
+                    {name: "home work", max: "5"},
+                    {name: "group work", max: "10"},
+                    {name: "individual", max: "10"},
+                    {name: "quiz1", max: "10"},
+                    {name: "quiz2", max: "10"},
+                    {name: "quiz3", max: "10"},
+                    {name: "final", max: "40"}];
 
-let grade, section;
-let searchButton = document.getElementById("searchButton");
 
-let lastCheckedNodeName;
+// let addButton = document.getElementById("addButton");
 
-let addButton = document.getElementById("addButton");
-let submitButton = document.getElementById("submitButton");
-
-let names = ["quiz", "assignment", "mid", "final"];
+let names = ["classWork", "homeWork", "groupWork", "individual", "quiz1", "quiz2", "quiz3", "final"];
+let ids = ["classWorkCheck", "homeWorkCheck", "groupWorkCheck", "individualCheck", "quiz1Check", "quiz2Check", "quiz3Check", "finalCheck"];
 console.log(window.location.pathname);
-quizCheck.addEventListener("change", function() {
 
-    if(this.checked) {
-        lastCheckedNodeName = this.name;
-        for (let i = 0; i < names.length; i++) {
-            if(names[i] === this.name) {
-                switchAbility(false, names[i]);
-            } else {
-                switchAbility(true, names[i]);
+// classCheck.addEventListener("change", function() {
+//
+//     // console.log("class work checked")
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "classWork");
+//     }
+//
+// });
 
-            }
-        }
-        // switchAbility(true, "assignment");
-        // switchAbility(true, "mid");
-        // switchAbility(true, "final");
-    } else {
-        lastCheckedNodeName = null;
-        switchAbility(true, "quiz");
-    }
+// homeCheck.addEventListener("change", function() {
+//
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "homeWork");
+//     }
+//
+//
+// });
 
-});
+// groupCheck.addEventListener("change", function() {
+//
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "groupWork");
+//     }
+//
+// });
 
-assignmentCheck.addEventListener("change", function() {
+// individualCheck.addEventListener("change", function() {
+//
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "individual");
+//     }
+//
+//
+// });
 
-    if(this.checked) {
-        lastCheckedNodeName = this.name;
-        for (let i = 0; i < names.length; i++) {
-            if(names[i] === this.name) {
-                switchAbility(false, names[i]);
-            } else {
-                switchAbility(true, names[i]);
+// quiz1Check.addEventListener("change", function() {
+//
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "quiz1");
+//     }
+//
+//
+// });
 
-            }
-        }
-        // switchAbility(false, "assignment");
-    } else {
-        lastCheckedNodeName = null;
-        switchAbility(true, "assignment");
-    }
+// quiz2Check.addEventListener("change", function() {
+//
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "quiz2");
+//     }
+//
+//
+// });
 
-});
+// quiz3Check.addEventListener("change", function() {
+//
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "quiz3");
+//     }
+//
+//
+// });
 
-midCheck.addEventListener("change", function() {
+// finalCheck.addEventListener("change", function() {
+//
+//     if(this.checked) {
+//         lastCheckedNodeName = this.name;
+//         for (let i = 0; i < names.length; i++) {
+//             if(names[i] === this.name) {
+//                 switchAbility(false, names[i]);
+//             } else {
+//                 switchAbility(true, names[i]);
+//
+//             }
+//         }
+//         lastCheckedNodeID = this.id
+//         // switchAbility(false, "final");
+//     } else {
+//         switchAbility(true, "final");
+//     }
+//
+// });
 
-    if(this.checked) {
-        lastCheckedNodeName = this.name;
-        for (let i = 0; i < names.length; i++) {
-            if(names[i] === this.name) {
-                switchAbility(false, names[i]);
-            } else {
-                switchAbility(true, names[i]);
-
-            }
-        }
-        // switchAbility(false, "mid");
-    } else {
-        lastCheckedNodeName = null;
-        switchAbility(true, "mid");
-    }
-
-});
-
-finalCheck.addEventListener("change", function() {
-
-    if(this.checked) {
-        for (let i = 0; i < names.length; i++) {
-            if(names[i] === this.name) {
-                switchAbility(false, names[i]);
-            } else {
-                switchAbility(true, names[i]);
-
-            }
-        }
-        // switchAbility(false, "final");
-    } else {
-        switchAbility(true, "final");
-    }
-
-});
 function switchAbility(able, name) {
 
+    console.log("the name", name)
     let input = document.getElementsByClassName(name);
-    console.log(input);
+    console.log("The node with that name", input);
 
     for (let i = 0; i < input.length; i++) {
 
         if(able) {
 
+            // let node = document.getElementById(lastCheckedNodeID);
+            // node.checked = false;
             input[i].disabled = true
             // input[i].setAttribute("disabled", true);
         } else {
@@ -115,6 +228,7 @@ function switchAbility(able, name) {
     }
 
 }
+
 searchButton.onclick = function () {
 
     console.log("clicked");
@@ -124,45 +238,58 @@ searchButton.onclick = function () {
     http.setRequestHeader('Content-Type', 'application/json');
     //
 
-    for (let i = 0; i < sectionSelect.length; i++) {
+    let sectionInput = document.getElementById("section");
+    let gradeInput = document.getElementById("grade");
+    let grade = gradeInput.value.trim();
+    let section= sectionInput.value.trim();
+    let assessmentSelect = document.getElementById("assessment");
+    let assessmentOptions = assessmentSelect.getElementsByTagName("option");
+    console.log("The options are", assessmentOptions)
+    for (let i = 0; i < assessmentOptions.length; i++) {
+        if(assessmentOptions[i].selected) {
+            selectedAssessment = assessmentOptions[i].text;
+            selectedIndex = i;
+        }
+    }
 
-        if(sectionSelect.options[i].selected) {
+    console.log("the selected assessment", selectedAssessment)
+    let currentUrl = window.location.pathname.split("/");
+    console.log(currentUrl)
+    let teacherId = currentUrl[currentUrl.length - 1];
 
-            section = sectionSelect.options[i].text;
-            // console.log(sectionSelect.options[i].text);
+    if(grade.length === 0 || section.length === 0) {
+        alert("Please fill all the data");
+    } else {
+        let data = {
+            teacherId: teacherId,
+            grade: grade,
+            section: section
+        };
+        http.send(JSON.stringify(data));
+
+        http.onreadystatechange = function () {
+
+            if ((http.readyState === 4) && (http.status === 200)) {
+
+                let response = http.responseText;
+                console.log(typeof response);
+                if (response.length === 1 && Number(response) === 1) {
+                    alert("Sorry, there are no students available")
+                } else if (response.length === 1 && Number(response) === 2) {
+                    alert("Sorry, this is not the right schedule")
+                } else if (response.length === 1 && Number(response) === 3) {
+                    alert("Sorry, there is no such schedule in the data store")
+                } else {
+                    parseIt(http.responseText)
+                }
+                // console.log("Teh data sent", http.responseText)
+                // parseIt(http.responseText)
+
+            }
 
         }
 
     }
-
-    for (let i = 0; i < gradeSelect.length; i++) {
-
-        if(gradeSelect.options[i].selected) {
-
-            grade = gradeSelect.options[i].text;
-
-            // console.log(gradeSelect.options[i].text);
-
-        }
-
-    }
-    let data = {
-        grade: grade,
-        section: section
-    };
-    http.send(JSON.stringify(data));
-
-    http.onreadystatechange = function () {
-
-        if((http.readyState === 4) && (http.status === 200)) {
-
-            console.log("Teh data sent", http.responseText)
-            parseIt(http.responseText)
-
-        }
-
-    }
-
 };
 
 function parseIt(jsonData) {
@@ -170,7 +297,15 @@ function parseIt(jsonData) {
         return value;
     });
 
+    let assessmentTitle = document.getElementById("assessmentTitle");
+    assessmentTitle.innerText = selectedAssessment;
     let tbody = document.getElementById("tableBody");
+    let child = tbody.lastElementChild;
+    console.log(child)
+    while(child) {
+        tbody.removeChild(child)
+        child = tbody.lastElementChild;
+    }
     for (let i = 0; i < data.length; i++) {
 
         let tr = document.createElement("tr");
@@ -179,31 +314,193 @@ function parseIt(jsonData) {
 
         let nameTd = document.createElement("td");
         nameTd.innerText = data[i].fname + " " + data[i].lname;
-        nameTd.setAttribute("name", data[i]._id);
+        nameTd.setAttribute("id", data[i]._id);
+        nameTd.setAttribute("class", "student");
+
+        let assessmentTd = document.createElement("td");
+        let max = assessmentInfo[selectedIndex].max;
+
+        assessmentTd.appendChild(markColumns(max, "assessment", false, "assessmentValue"));
+
         tr.appendChild(th);
         tr.appendChild(nameTd);
-        let quizTd = document.createElement("td");
-        let midTd = document.createElement("td");
-        let assignmentTd = document.createElement("td");
-        let finalTd = document.createElement("td");
-        let totalTd = document.createElement("td");
-        quizTd.appendChild(markColumns(10, "quiz", true, "quizInput"));
-        midTd.appendChild(markColumns(25, "mid", true, "midInput"));
-        assignmentTd.appendChild(markColumns(15, "assignment", true, "assignmentInput"));
-        finalTd.appendChild(markColumns(50, "final", true, "finalInput"));
-        totalTd.appendChild(markColumns(100, "total", true, "totalInput"));
-        tr.appendChild(quizTd);
-        tr.appendChild(midTd);
-        tr.appendChild(assignmentTd);
-        tr.appendChild(finalTd);
-        tr.appendChild(totalTd);
+
+        tr.appendChild(assessmentTd)
+        // let classTd = document.createElement("td");
+        // let homeTd = document.createElement("td");
+        // let groupTd= document.createElement("td");
+        // let individualTd = document.createElement("td");
+        // let quiz1Td = document.createElement("td");
+        // let quiz2Td = document.createElement("td");
+        // let quiz3Td = document.createElement("td");
+        // let scoreTd = document.createElement("td");
+        // let finalTd = document.createElement("td");
+        // let totalTd = document.createElement("td");
+        //
+        // classTd.appendChild(markColumns(5, "classWork", true, "classWork"));
+        // homeTd.appendChild(markColumns(5, "homeWork", true, "homeWork"));
+        // groupTd.appendChild(markColumns(10, "groupWork", true, "groupWork"));
+        // individualTd.appendChild(markColumns(10, "individual", true, "individual"));
+        // quiz1Td.appendChild(markColumns(10, "quiz1", true, "quiz1"));
+        // quiz2Td.appendChild(markColumns(10, "quiz2", true, "quiz2"));
+        // quiz3Td.appendChild(markColumns(10, "quiz3", true, "quiz3"));
+        // finalTd.appendChild(markColumns(40, "final", true, "final"));
+        // scoreTd.appendChild(markColumns(0, "score", true, "score"));
+        // totalTd.appendChild(markColumns(100, "total", true, "total"));
+        //
+        // tr.appendChild(classTd);
+        // tr.appendChild(homeTd);
+        // tr.appendChild(groupTd);
+        // tr.appendChild(individualTd);
+        // tr.appendChild(quiz1Td);
+        // tr.appendChild(quiz2Td);
+        // tr.appendChild(quiz3Td);
+        // tr.appendChild(finalTd);
+        // tr.appendChild(scoreTd);
+        // tr.appendChild(totalTd);
+        //
         tbody.appendChild(tr)
+
+        registerEvents();
     }
+    // let classButtonTd = document.createElement("td");
+    // let homeButtonTd = document.createElement("td");
+    // let groupButtonTd = document.createElement("td");
+    // let individualButtonTd = document.createElement("td");
+    // let quiz1ButtonTd = document.createElement("td");
+    // let quiz2ButtonTd = document.createElement("td");
+    // let quiz3ButtonTd = document.createElement("td");
+    // let finalButtonTd = document.createElement("td");
+    //
+    // classButtonTd.appendChild(makeButtons("classInsertButtonId"));
+    // homeButtonTd.appendChild(makeButtons("homeInsertButtonId"));
+    // groupButtonTd.appendChild(makeButtons("groupInsertButtonId"));
+    // individualButtonTd.appendChild(makeButtons("individualInsertButtonId"));
+    // quiz1ButtonTd.appendChild(makeButtons("quiz1InsertButtonId"));
+    // quiz2ButtonTd.appendChild(makeButtons("quiz2InsertButtonId"));
+    // quiz3ButtonTd.appendChild(makeButtons("quiz3InsertButtonId"));
+    // finalButtonTd.appendChild(makeButtons("finalInsertButtonId"));
+    //
+    // let tr = document.createElement("tr");
+    // tr.appendChild(document.createElement("td"))
+    // tr.appendChild(document.createElement("td"))
+    // tr.appendChild(classButtonTd);
+    // tr.appendChild(homeButtonTd);
+    // tr.appendChild(groupButtonTd);
+    // tr.appendChild(individualButtonTd);
+    // tr.appendChild(quiz1ButtonTd);
+    // tr.appendChild(quiz2ButtonTd);
+    // tr.appendChild(quiz3ButtonTd);
+    // tr.appendChild(finalButtonTd);
+    //
+    // console.log("The table body is", tbody)
+    // tbody.appendChild(tr)
     // tbody.removeChild()
     // createTable(data);
-    console.log("The length", data.length)
+    // console.log("The length", data.length)
 }
 
+function checkExceededValue(results, selectedMax) {
+    let exceeded = false;
+    for (let i = 0; i < results.length; i++) {
+        if(Number(results[i].value) > Number(selectedMax)) {
+            exceeded = true;
+            break
+        }
+    }
+    return exceeded;
+}
+
+function registerEvents() {
+
+    let submitButton = document.getElementById("submitButton");
+
+    submitButton.onclick = () => {
+
+        let http = new XMLHttpRequest();
+        let url = "http://localhost:3000/api/grade";
+        http.open("post", url, true);
+        http.setRequestHeader("Content-Type", "application/json");
+
+        let results = document.getElementsByName("assessmentValue");
+        let selectedMax = assessmentInfo[selectedIndex].max;
+
+        if(checkExceededValue(results, selectedMax)){
+            alert("Values must not exceed " + selectedMax);
+        } else {
+            http.send(JSON.stringify(organizeTheData(results, selectedMax)))
+        }
+
+        // http.send(JSON.stringify(organizeTheData()));
+
+        http.onreadystatechange = () => {
+
+            if(http.readyState === 4 && http.status === 200) {
+
+                alert(http.responseText)
+
+            }
+
+        }
+
+    }
+
+}
+
+function organizeTheData(results, selectedMax) {
+
+    let students = document.getElementsByClassName("student");
+
+    let gradeInput = document.getElementById("grade");
+    let courseInput = document.getElementById("courseInput");
+    let sectionInput = document.getElementById("section");
+    let studentsArray = [];
+
+    // let assessmentResults = document.getElementsByName("assessmentValue");
+    // let selectedMax = assessmentInfo[selectedIndex].max;
+    // let results = document.getElementsByName("assessmentValue");
+
+    // for (let i = 0; i < assessmentResults.length; i++) {
+    //     if(Number(results[i].value) > Number(selectedMax)) {
+    //         alert("Values must not exceed " + selectedMax);
+    //         break
+    //     }
+    // }
+
+        for (let i = 0; i < students.length; i++) {
+            studentsArray.push({
+                // assessment: selectedAssessment
+                student: students[i].id,
+                                // assessment: selectedAssessment,
+                result: results[i].value,
+                max: selectedMax
+            })
+
+        }
+
+
+        let data = {grade: gradeInput.value,
+            course: courseInput.value,
+            section: sectionInput.value,
+            assessment: selectedAssessment,
+            students: studentsArray};
+
+        return data;
+
+
+    // console.log("The students", studentsArray)
+
+}
+function makeButtons(id) {
+
+    let button = document.createElement("button");
+    button.setAttribute("class", "btn btn-primary");
+    button.setAttribute("id", id);
+    button.innerText = "Insert"
+
+    return button;
+
+}
 function markColumns(max, className, disabled, name) {
 
     let input = document.createElement("input");
@@ -223,30 +520,33 @@ function markColumns(max, className, disabled, name) {
 
 }
 
-addButton.onclick = () => {
-
-    let total = 0;
-    if(lastCheckedNodeName !== null) {
-
-        let inputs = document.getElementsByClassName(lastCheckedNodeName);
-
-        for (let i = 0; i < inputs.length; i++) {
-
-            let input = inputs[i].value.trim();
-
-            if(input.length === 0) {
-
-                alert("Please, fill all the data")
-
-            } else {
-
-                total = total + input;
-
-            }
-
-        }
-    } else {
-        alert("There is nothing checked")
-    }
-
-}
+// addButton.onclick = () => {
+//
+//     let total = 0;
+//     if(lastCheckedNodeName !== null) {
+//
+//         let inputs = document.getElementsByClassName(lastCheckedNodeName);
+//
+//         for (let i = 0; i < inputs.length; i++) {
+//
+//             let input = inputs[i].value.trim();
+//
+//             if(input.length === 0) {
+//
+//                 alert("Please, fill all the data")
+//                 break
+//
+//             } else {
+//
+//                 total = total + Number(input);
+//
+//             }
+//
+//         }
+//     } else {
+//         alert("There is nothing checked")
+//     }
+//
+//     console.log(total)
+//
+// }

@@ -74,6 +74,7 @@ parentRouter.post("/newparent", (req, res, next) => {
     let tel = passedData.tel;
     let id = passedData.studentIds;
 
+    console.log(id);
     // let familyContact = {email: passedData.email,
     //                     token: passedData.token,
     //                     tel: passedData.tel};

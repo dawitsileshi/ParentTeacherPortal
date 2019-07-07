@@ -4,6 +4,12 @@ let studentModel = require("../../model/student");
 
 let teacherModel = require("../../model/teacher");
 
+teacherRouter.get("/lessonPlan", (req, res, next) => {
+
+    res.render("teacher/createLessonPlan")
+
+})
+
 teacherRouter.get("/teachers", (req, res, next) => {
 
     teacherModel.listAllTeachers().then(foundTeachers => {
@@ -113,7 +119,7 @@ teacherRouter.get("/attendance/teacherInfo/:id", (req, res, next) => {
     let id = req.params.id;
 
     // console.log("came here")
-    teacherModel.findScheduleInfo(id, "Monday").then(foundInfo => {
+    teacherModel.findScheduleInfo(id).then(foundInfo => {
         Promise.all(foundInfo).then(foundSchedules => {
             console.log("resolved")
             // console.log("The teacher info", foundSchedules);
@@ -151,7 +157,7 @@ teacherRouter.get("/grade/:id", (req, res, next) => {
     teacherModel.findScheduleInfo(id).then(foundInfo => {
         console.log("The first", foundInfo);
         Promise.all(foundInfo).then(foundSchedules => {
-           res.render("teacher/grade", {info: extractInfo(id, foundSchedules),  teacher: {id: id}})
+           res.render("teacher/addGrade", {info: extractInfo(id, foundSchedules),  teacher: {id: id}})
         })
     }).catch(err => {
 
@@ -202,7 +208,24 @@ teacherRouter.get("/showAttendance", (req, res, next) => {
 
     })
 
-})
+});
+
+// teacherRouter.get("/teacher/createAccount", (req, res, next) => {
+
+    // let id = req.params.id;
+    // teacherModel.teacherById(id).then(foundTeacher => {
+    //
+    //     if(foundTeacher !== null) {
+    //         res.render("teacher/teacherRegister", {message: ""});
+        // } else {
+        //     res.json("Invalid Request").code(404);
+        // }
+
+    // }).catch(err => {
+    //     console.log(err)
+    // })
+
+// })
 teacherRouter.post("/teacher", (req, res, next) => {
 
     // return res.redirect("www.google.com");
@@ -257,6 +280,7 @@ teacherRouter.post("/teacher/attendance", (req, res, next) => {
                     }
     };
 
+    console.log("The data", attendance)
     teacherModel.addAttendance(attendance).then(savedAttendance => {
         console.log(savedAttendance);
         res.json(savedAttendance)
@@ -304,7 +328,7 @@ teacherRouter.post("/attendance/:teacherId", (req, res, next) => {
         console.log("The error is ", err)
     });
 
-    console.log("The file is ", attendance);
+    // console.log("The file is ", attendance);
 
 });
 
@@ -340,22 +364,65 @@ teacherRouter.post("/teacher/register", (req, res, next) => {
 
 });
 
-teacherRouter.post("teacher/mySchedule/:id", (req, res, next) => {
+teacherRouter.get("/teacher/mySchedule/:id", (req, res, next) => {
 
     let id = req.params.id;
 
-    teacherModel.listMySchedule(id).then(foundSchedules => {
-
-        res.json(foundSchedules)
-
-    }).catch(err => {
-
-        next(err)
-        console.log(err)
-
+    teacherModel.findScheduleInfo(id).then(foundInfo => {
+        Promise.all(foundInfo).then(foundSchedules => {
+            console.log("organized data", organizeTheData(foundSchedules, id));
+            res.render("teacher/schedule", {schedule: organizeTheData(foundSchedules, id)})
+        }).catch(err => {
+            console.log(err)
+        });
     })
+});
+// TODO: class work 5, home work 5, group work 10, individual 10, 3 exams out of 10, final 40
+function organizeTheData(schedules, id) {
 
-})
+    let data = [];
+    let grade;
+    let section;
+    let period;
+    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    for (let i = 0; i < days.length; i++) {
+        for (let j = 0; j < schedules.length; j++) {
+            let singleSchedule = schedules[j];
+            if(singleSchedule.day === days[i]) {
+                section = singleSchedule.section;
+                grade = singleSchedule.grade;
+                let program = singleSchedule.program;
+                for (let k = 0; k < program.length; k++) {
+                    let singleProgram = program[k];
+                    if(String(singleProgram.teacherId) === String(id)) {
+                        period = singleProgram.period;
+                    }
+
+                }
+                data.push({day: days[i],
+                    grade: grade,
+                    section: section,
+                    period: period})
+                grade = null
+                section = null
+                period = null
+            }
+        }
+
+    }
+
+    return data;
+    // for (let i = 0; i < schedules.length; i++) {
+    //     let program = schedules[i].program;
+    //     for (let j = 0; j < program.length; j++) {
+    //         let singleProgram = program[j];
+    //         if(String(id) === singleProgram.teacherId) {
+    //
+    //         }
+    //     }
+    // }
+
+}
 
 teacherRouter.put("/teacher", (req, res, next) => {
 

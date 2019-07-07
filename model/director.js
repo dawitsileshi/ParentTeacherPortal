@@ -2,6 +2,7 @@ let studentModel = require("./schemas/studentSchema");
 let teacherModel = require("./schemas/teacherSchema");
 let scheduleModel = require("./schemas/scheduleSchema");
 let commonUserModel = require("./schemas/commonUserSchema");
+let behavioralReportModel = require("./schemas/behavioralReportSchema");
 // TODO: registerStudent should only be accessed through the registrar authentication
 // TODO: 
 exports.assignCourseToTeachers = (day, period, course) => {
@@ -41,7 +42,7 @@ exports.loginDirector = (username, email, password) => {
                 reject(err)
             } else {
                 if(foundDirector === null) {
-                    reject("Wrong username or password")
+                    resolve("Wrong username or password")
                 } else {
                     // console.log(foundTeacher);
                     resolve(foundDirector);
@@ -64,3 +65,38 @@ exports.updateSemester = () => {
   })
 
 };
+
+exports.createBehavioralReport = behavioralReport => {
+
+    return new Promise((resolve, reject) => {
+
+        behavioralReportModel(behavioralReport).save((err, savedBehavioralReport) => {
+
+            if(err) {
+                reject(err)
+            } else {
+                resolve(savedBehavioralReport)
+            }
+
+        })
+
+    })
+
+}
+
+exports.listBehavioralReports = id => {
+
+    return new Promise((resolve, reject) => {
+
+        behavioralReportModel.find({studentId: id}, (err, foundBehavioralReports) => {
+            if(err) {
+                reject(err)
+            } else {
+                resolve(foundBehavioralReports)
+            }
+        })
+
+    })
+
+
+}

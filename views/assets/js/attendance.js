@@ -19,6 +19,11 @@
 
 window.onload = () => {
 
+    let gradeInput = document.getElementById("gradeInput");
+    let sectionInput = document.getElementById("sectionInput");
+    let periodInput = document.getElementById("periodInput");
+    let dayInput = document.getElementById("dateInput");
+
     retrieveSecGrade();
 
     function retrieveSecGrade() {
@@ -36,7 +41,7 @@ window.onload = () => {
 
             if(http.readyState === 4 && http.status === 200) {
 
-                console.log("Before parse", http.responseText);
+                // console.log("Before parse", http.responseText);
                 parseTheResponse(http.responseText)
 
             }
@@ -46,72 +51,80 @@ window.onload = () => {
     }
 
     function parseTheResponse(response) {
-
+    //
         let parsedResponse = JSON.parse(response, (key, value) => {
             return value;
         });
 
-        // let data = [{grade: grade,
-        //             sections: [{sections: section,
-        //                         periods: [period]}]}]
-        //
-        let data = [];
-        let sections = [];
-        for (let i = 0; i < parsedResponse.length; i++) {
-            let singleParsedResponse = parsedResponse[i];
-            let grade = singleParsedResponse.grade;
-            let section = singleParsedResponse.section;
-            for (let j = i + 1; j < parsedResponse.length; j++) {
-                let nextSingleParsedResponse = parsedResponse[j];
-                if(nextSingleParsedResponse.grade === grade) {
-                    // let grade = {grade: grade};
-                    let sections
-                    let period = nextSingleParsedResponse.periods;
-                    for (let k = 0; k < period.length; k++) {
-                        singleParsedResponse.periods.push(period[k])
-                    }
-                    parsedResponse.splice(j, 1);
-                }
-            }
-        }
-
-        console.log("After parsed", parsedResponse)
-
         let courseInput = document.getElementById("courseInput");
-        let periodSelect = document.getElementById("period");
-        let sectionSelect = document.getElementById("section");
-        let gradeSelect = document.getElementById("grade");
-
-        // console.log("After parse", parsedResponse)
         courseInput.value = parsedResponse[0].course;
-        for (let i = 0; i < parsedResponse.length; i++) {
-            let gradeOptions = document.createElement("option");
-            let sectionOptions = document.createElement("option");
-            let periodOptions = document.createElement("option");
-
-            let grade = parsedResponse[i].grade;
-            gradeOptions.text = grade;
-            gradeOptions.value = grade;
-            gradeSelect.options.add(gradeOptions);
-
-            let section = parsedResponse[i].section;
-            sectionOptions.text = section;
-            sectionOptions.value = section;
-            sectionSelect.options.add(sectionOptions);
-
-            // console.log()
-            // for (let j = 0; j < grade.length; j++) {
-            //     gradeOptions.text = grade[j]
-            //     gradeOptions.value = grade[j]
-            //     gradeSelect.options.add(gradeOptions);
-            // }
-            // let grade = parsedResponse[i].grade;
-        }
-
+    //
+    //     console.log("After parse", parsedResponse)
+    //     // let data = [{grade: grade,
+    //     //             sections: [{sections: section,
+    //     //                         periods: [period]}]}]
+    //     //
+    //     let data = [];
+    //     let sections = [];
+    //     // for (let i = 0; i < parsedResponse.length; i++) {
+    //     //     let singleParsedResponse = parsedResponse[i];
+    //     //     let grade = singleParsedResponse.grade;
+    //     //     let section = singleParsedResponse.section;
+    //     //     for (let j = i + 1; j < parsedResponse.length; j++) {
+    //     //         let nextSingleParsedResponse = parsedResponse[j];
+    //     //         if(nextSingleParsedResponse.grade === grade) {
+    //     //             let grade = {grade: grade};
+    //                 // let sections
+    //                 // let period = nextSingleParsedResponse.periods;
+    //                 // for (let k = 0; k < period.length; k++) {
+    //                 //     singleParsedResponse.periods.push(period[k])
+    //                 // }
+    //                 // parsedResponse.splice(j, 1);
+    //             // }
+    //         // }
+    //     // }
+    //
+    //     // console.log("After parsed", parsedResponse)
+    //
+    //     let courseInput = document.getElementById("courseInput");
+    //     // let periodSelect = document.getElementById("period");
+    //     // let sectionSelect = document.getElementById("section");
+    //     // let gradeSelect = document.getElementById("grade");
+    //
+    //     // console.log("After parse", parsedResponse)
+    //     courseInput.value = parsedResponse[0].course;
+    //     for (let i = 0; i < parsedResponse.length; i++) {
+    //         let gradeOptions = document.createElement("option");
+    //         let sectionOptions = document.createElement("option");
+    //         let periodOptions = document.createElement("option");
+    //
+    //         let grade = parsedResponse[i].grade;
+    //         gradeOptions.text = grade;
+    //         gradeOptions.value = grade;
+    //         gradeSelect.options.add(gradeOptions);
+    //
+    //         let section = parsedResponse[i].section;
+    //         sectionOptions.text = section;
+    //         sectionOptions.value = section;
+    //         sectionSelect.options.add(sectionOptions);
+    //
+    //         let period = parsedResponse[i].periods;
+    //         periodOptions.text = period[0];
+    //         periodOptions.value= period[0];
+    //         periodSelect.options.add(periodOptions)
+    //         // console.log()
+    //         // for (let j = 0; j < grade.length; j++) {
+    //         //     gradeOptions.text = grade[j]
+    //         //     gradeOptions.value = grade[j]
+    //         //     gradeSelect.options.add(gradeOptions);
+    //         // }
+    //         // let grade = parsedResponse[i].grade;
+    //     }
+    //
     }
-    let gradeSelect = document.getElementById("grade");
-    let periodSelect = document.getElementById("period");
-    let sectionSelect = document.getElementById("section");
+    // let gradeSelect = document.getElementById("grade");
+    // let periodSelect = document.getElementById("period");
+    // let sectionSelect = document.getElementById("section");
 
     let section, period, grade;
 
@@ -134,7 +147,6 @@ window.onload = () => {
     let attendance = [];
 
     let courseNameInput = document.getElementById("courseInput");
-// let periodInput = document.getElementById("periodInput");
     let dateInput = document.getElementById("dateInput");
 // let sectionInput = document.getElementById("sectionInput");
 // let gradeInput = document.getElementById("gradeInput");
@@ -152,10 +164,11 @@ window.onload = () => {
         //
         //     let tableData = tableRow[i];
         //     let radio = tableData.getElementsByTagName("div");
-        let absentPresent = document.getElementsByClassName("present");
+        let absent = document.getElementsByClassName("absent");
+        let present = document.getElementsByClassName("present");
         // let execuse = tableData.getElementsByName("excused");
         // console.log(radio);
-        for (let j = 0; j < absentPresent.length; j++) {
+        for (let j = 0; j < absent.length; j++) {
             // if(radio[j].checked) {
             // let input = radio[j].getElementsByTagName("input");
             let excuse = document.getElementsByName("excused");
@@ -168,36 +181,19 @@ window.onload = () => {
             } else {
                 excused = false
             }
-            if (absentPresent[j].checked) {
-                value = absentPresent[j].value;
-                id = absentPresent[j].name
-                // attendance.push({id: absentPresent[j].name,
-                //                 value: absentPresent[j].value,
-                //                 excused: excused
-                // });
-                // console.clear();
-                // console.log(input[0].getAttribute("value") + " " + input[0].getAttribute("name"));
+            if (absent[j].checked) {
+                value = absent[j].value;
+                id = absent[j].name
             } else {
-                value = absentPresent[j].value;
-                id = absentPresent[j].name
+                value = present[j].value;
+                id = present[j].name
             }
             attendance.push({
                 id: id,
                 value: value,
                 excused: excused
             })
-            // console.log(input[0].getAttribute("value"));
-            // console.log(input[0].checked);
-            // }
         }
-        // console.log(tableData.innerHTML);
-        // for (let j = 0; j < tableData.length; j++) {
-        //
-        //     console.log(tableData[j]);
-        //
-        // }
-
-        // }
 
     }
 
@@ -205,18 +201,6 @@ window.onload = () => {
 // console.log(button)
     button.onclick = function () {
         countIt();
-        // let section;
-        // for (let i = 0; i < sectionSelect.options; i++) {
-        //     if(sectionSelect.options[i].selected) {
-        //         section = sectionSelect.options[i].value;
-        //     }
-        // }
-        // let period;
-        // for (let i = 0; i < periodSelect.options; i++) {
-        //     if(periodSelect.options[i].selected) {
-        //         period = periodSelect.options[i].value;
-        //     }
-        // }
         //
         // let grade;
         // for (let i = 0; i < gradeSelect.options; i++) {
@@ -224,6 +208,10 @@ window.onload = () => {
         //         grade = gradeSelect.options[i].value;
         //     }
         // }
+
+        grade = gradeInput.value.trim()
+        section = sectionInput.value.trim()
+        period = periodInput.value.trim()
 
         let path = window.location.pathname.split("/");
         let teacherId = path[path.length - 1];
@@ -251,81 +239,91 @@ window.onload = () => {
 
             if (http.readyState === 4 && http.status === 200) {
 
-                let tr = document.getElementsByName("tableRow");
-                for (let i = 0; i < tr.length; i++) {
-                    tableBody.removeChild(tr[i]);
+                let child = tableBody.lastElementChild;
+                console.log(child)
+                while(child) {
+                    tableBody.removeChild(child)
+                    child = tableBody.lastElementChild;
                 }
+                // let tr = document.getElementsByName("tableRow");
+                // for (let i = 0; i < tr.length; i++) {
+                //     tableBody.removeChild(tr[i]);
+                // }
                 alert("Attendance is successfully filled");
 
             }
 
         };
-        // console.log(dateInput.value);
         return false;
-        // console.log("clicked");
     };
 
     let searchButton = document.getElementById("searchButton");
 
     searchButton.onclick = function () {
 
-        console.log("clicked");
-        let http = new XMLHttpRequest();
-        let url = "http://localhost:3000/api/students/secgrade";
-        http.open("post", url, true);
-        http.setRequestHeader('Content-Type', 'application/json');
-        //
-        for (let i = 0; i < sectionSelect.length; i++) {
+        let grade = gradeInput.value.trim();
+        let section = sectionInput.value.trim();
+        let period = periodInput.value.trim();
+        if (grade.length === "" || section.length === "" || period.length === "") {
 
-            if (sectionSelect.options[i].selected) {
+            alert("Please fill all the data")
 
-                section = sectionSelect.options[i].text;
-                // console.log(sectionSelect.options[i].text);
+        } else {
+
+            console.log("clicked");
+            let http = new XMLHttpRequest();
+            let url = "http://localhost:3000/api/students/secgradeday";
+            http.open("post", url, true);
+            http.setRequestHeader('Content-Type', 'application/json');
+
+            let currentUrl = window.location.pathname.split("/");
+            console.log(currentUrl)
+            let teacherId = currentUrl[currentUrl.length - 1];
+            let data = {
+                teacherId: teacherId,
+                day: dayInput.value,
+                grade: grade,
+                section: section,
+                period: period
+            };
+
+            console.log(data)
+
+            http.send(JSON.stringify(data));
+
+            http.onreadystatechange = function () {
+
+                if ((http.readyState === 4) && (http.status === 200)) {
+
+                    let response = http.responseText;
+                    console.log(typeof response)
+                    if(response.length === 1 && Number(response) === 1) {
+                        alert("Sorry, there are no students available")
+                    } else if(response.length === 1 && Number(response) ===2) {
+                        alert("Sorry, this is not the right schedule. Please, refer to your schedule in the schedule section, incase you missed it.")
+                    } else if(response.length === 1 && Number(response) === 3) {
+                        alert("Sorry, there is no such schedule in the data store")
+                    } else {
+                        parseIt(http.responseText)
+                    }
+                    // if(typeof response === "string") {
+                    //     alert(response)
+                    // } else {
+                    //     parse(http.responseText)
+                    // }
+                    // console.log("The responseText", http.responseText)
+                    // if(http.responseText.length === 0) {
+                    //     alert("No students found with that schedule")
+                    //     return;
+                    // } else {
+                    //     parseIt(http.responseText)
+                    // }
+
+                }
 
             }
-
         }
-
-        for (let i = 0; i < gradeSelect.length; i++) {
-
-            if (gradeSelect.options[i].selected) {
-
-                grade = gradeSelect.options[i].text;
-
-                // console.log(gradeSelect.options[i].text);
-
-            }
-
-        }
-
-        for (let i = 0; i < periodSelect.length; i++) {
-
-            if (periodSelect.options[i].selected) {
-
-                period = periodSelect.options[i].text;
-
-                // console.log(gradeSelect.options[i].text);
-
-            }
-
-        }
-        let data = {
-            grade: grade,
-            section: section,
-            period: period
-        };
-
-        http.send(JSON.stringify(data));
-
-        http.onreadystatechange = function () {
-
-            if ((http.readyState === 4) && (http.status === 200)) {
-
-                parseIt(http.responseText)
-
-            }
-
-        }
+    }
 
     };
 
@@ -335,6 +333,13 @@ window.onload = () => {
         });
 
         let tbody = document.getElementById("tableBody");
+
+        let child = tbody.lastElementChild;
+        console.log(child)
+        while(child) {
+            tbody.removeChild(child)
+            child = tbody.lastElementChild;
+        }
         // tbody.removeChild()
         createTable(data);
         console.log("The length", data.length);
@@ -433,6 +438,6 @@ window.onload = () => {
         }
 
 
-    }
+
 
 }

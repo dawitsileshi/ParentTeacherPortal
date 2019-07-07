@@ -1,4 +1,6 @@
 let scheduleModel = require("../../model/schedule");
+let teacherModel = require("../../model/teacher");
+
 let scheduleRouter = require("express").Router();
 
 scheduleRouter.get("/schedules", (req, res, next) => {
@@ -17,7 +19,7 @@ scheduleRouter.post("/specificSchedule", (req, res, next) => {
 
     let passedData = req.body;
     console.log(passedData);
-    scheduleModel.findSchedule(passedData.day, passedData.grade, passedData.section, passedData.semester).then(foundSchedule => {
+    scheduleModel.findSchedule(passedData.year, passedData.day, passedData.grade, passedData.section, passedData.semester).then(foundSchedule => {
 
         console.log(foundSchedule)
         res.json(foundSchedule)
@@ -118,6 +120,7 @@ scheduleRouter.post("/schedule", (req, res, next) => {
     let passedData = req.body;
 
     console.log(passedData);
+    let year = new Date().getFullYear();
     let grade = passedData.grade;
     let semester = passedData.semester;
     let section = passedData.section;
@@ -129,13 +132,34 @@ scheduleRouter.post("/schedule", (req, res, next) => {
     // let courseName = passedData.courseName;
     // let teacherName = passedData.teacherName;
     //
+    // let planIds = [];
+    // for (let i = 0; i < programs.length; i++) {
+    //     teacherModel.createLessonPlan(programs[i].teachers.id).then(createdPlan => {
+    //         console.log(createdPlan)
+    //         // planIds.push(createdPlan._id)
+    //     }).catch(err => {
+    //         console.log(err)
+    //     })
+    // }
+
+    // console.log("The plan ids", planIds)
+    //
     let program = [];
     for (let i = 0; i < programs.length; i++) {
-        let singleProgram = {period: programs[i].period,
-                        courseName: programs[i].course,
-                        teacherId: programs[i].teachers.id,
-                        teacherName: programs[i].teachers.name};
-        program.push(singleProgram);
+        // let lessonPlanId;
+        // teacherModel.createLessonPlan(programs[i].teachers.id).then(savedLessonPlan => {
+        //
+        //     lessonPlanId = savedLessonPlan._id;
+
+            let singleProgram = {period: programs[i].period,
+                            courseName: programs[i].course,
+                            teacherId: programs[i].teachers.id,
+                            teacherName: programs[i].teachers.name };
+            program.push(singleProgram);
+
+        // }).catch(err => {
+        //     console.log(err)
+        // });
     }
     // console.log("arrived here");
     // res.json(passedData);
@@ -163,7 +187,9 @@ scheduleRouter.post("/schedule", (req, res, next) => {
     //                     teacherName: teacherName
     //                 }]};
 
-    let schedule = {grade: grade,
+    let schedule = {
+        year: year,
+        grade: grade,
         semester: semester,
         day: day,
         dayNumber: dayNumber,
@@ -199,11 +225,12 @@ scheduleRouter.post("/schedule", (req, res, next) => {
     scheduleModel.addSchedule(schedule, grade, section, scheduleForStudent).then(savedSchedule => {
         if(typeof savedSchedule === "string") {
 
-            res.render("director/newSchedule", {message: savedSchedule})
-            console.log(savedSchedule)
+            res.json(0);
+            // res.render("director/newSchedule", {message: savedSchedule})
+            console.log(1)
 
         } else {
-            res.json(savedSchedule)
+            res.json(1)
         }
     }).catch(err => {
         console.log(err);
@@ -216,7 +243,7 @@ scheduleRouter.post("/schedules", (req, res, next) => {
 
     console.log("came here")
 
-})
+});
 
 scheduleRouter.put("/schedule", (req, res, next) => {
 

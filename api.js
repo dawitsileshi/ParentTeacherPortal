@@ -153,7 +153,7 @@ app.use("/teacher/createAccount", (req, res, next) => {
 
 app.use("/registrar/register", (req, res, next) => {
 
-    res.render("register", {message: "please start your username with <b>'reg/</b>"})
+    res.render("register", {message: "please start your username with <b>reg/</b>"})
 
 });
 
@@ -169,5 +169,11 @@ app.use("/director/register", (req, res, next) => {
 //     console.log("login");
 //
 // })
+
+app.use("/common", (req, res, next) => {
+
+    res.render("director/common")
+
+})
 
 module.exports = app;

@@ -1,7 +1,18 @@
 // let addYearButtonId = document.getElementById("addYearButtonId");
 
+let tmp = new Date(Date.now());
 
+// tmp now like: "2018-08-21T11:54:50.580Z"
+
+let dateInputFormatted = tmp.toISOString().split('T')[0];
+
+let todayInput = document.getElementById("todayInputId");
+let whenInput = document.getElementById("whenInputId");
+let titleInput = document.getElementById("titleInputId");
+let descriptionInput = document.getElementById("descriptionInputId");
 let submitEventButtonId = document.getElementById("submitEventButtonId");
+
+todayInput.value = dateInputFormatted;
 
 submitEventButtonId.onclick = () => {
 
@@ -91,7 +102,6 @@ function addView() {
 }
 
 function submitData() {
-
 
     let gradeInput = document.getElementsByName("grade");
     // let sectionSelect = document.getElementsByName("section");

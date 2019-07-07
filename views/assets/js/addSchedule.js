@@ -101,7 +101,7 @@ window.onload = function() {
     console.log(year)
     year.value = new Date().getFullYear();
 
-    receiveData();
+    // receiveData();
 
     // let cardDeck = document.getElementById("card-deck");
     // col.appendChild(cardDeck);
@@ -121,6 +121,21 @@ window.onload = function() {
         http.setRequestHeader('Content-Type', 'application/json');
 
         http.send(JSON.stringify(data));
+
+        http.onreadystatechange = () => {
+
+            if(http.readyState === 4 && http.status === 200) {
+
+                if(Number(http.responseText) === 0) {
+                    alert("The schedule already exists")
+                } else {
+                    alert("The schedule is saved successfully")
+
+                }
+
+            }
+
+        }
         return false;
 
     };
@@ -151,7 +166,6 @@ window.onload = function() {
 };
 
 function prepareTheData() {
-
 
     let day = document.getElementById("day");
     let section = document.getElementById("section");
@@ -225,9 +239,14 @@ function receiveData(courseName, i) {
     http.onreadystatechange = function() {
         // console.log("arrived here")
         if(http.readyState === 4 && http.status === 200) {
-            let teachers = JSON.parse(http.responseText);
-            addToDropDown(teachers, i);
-            console.log(teachers)
+            let response = http.responseText;
+            let teachers = JSON.parse(response);
+            if(teachers.length === 0) {
+                alert("There is no teacher assigned for that course, make sure you spelled the course name correctly.")
+            } else {
+                addToDropDown(teachers, i);
+                console.log(teachers)
+            }
         } else {
             console.log(http.status);
         }

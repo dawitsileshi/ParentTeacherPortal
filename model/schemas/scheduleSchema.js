@@ -11,7 +11,8 @@ let scheduleSchema = new mongoose.Schema({
             period: Number,
             courseName: String,
             teacherId: mongoose.Schema.Types.ObjectId,
-            teacherName: String
+            teacherName: String,
+            lessonPlanId: mongoose.Schema.Types.ObjectId
         }],
     students: [{
         studentId: mongoose.Schema.Types.ObjectId

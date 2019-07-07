@@ -18,25 +18,30 @@
 </head>
 
 <body><nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-    <div class="container"><a href="#" class="navbar-brand logo">Mekelle University Community School</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="container"><a href="#" class="navbar-brand">Mekelle University Community School</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="attendance/<%=teacher.id%>">Attendance</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="schedule/<%= teacher.id%>">Schedule</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="grade/<%= teacher.id%>">Grade</a></li>
-                <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Options</a>
-                    <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
-                </li>
-            </ul><span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="/login">Log out</a></span>
+                <li role="presentation" class="nav-item"><a id="homeId" href="" class="nav-link active">Home</a></li>
+                <li role="presentation" class="nav-item"><a id="directorScheduleId" href="/api/listSchedules" class="nav-link">Schedules</a></li>
+                <li role="presentation" class="nav-item"><a id="eventsId" href="/api/listEvents" class="nav-link">Events</a></li>
+                <li role="presentation" class="nav-item"><a id="studentsId" href="/api/manageStudents" class="nav-link">Students</a></li>
+                <li role="presentation" class="nav-item"><a id="registrarsId" href="/registrar/register" class="nav-link">Registrar</a></li>
+                <li role="presentation" class="nav-item"><a id="commonId" href="/common" class="nav-link">Others</a></li>
+            </ul>
+            <span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="/login">Log out</a></span>
+
         </div>
     </div>
 </nav>
-<main class="page landing-page"><section class="clean-block clean-hero" style="background-image:url('/img/custom/element5-digital-352043-unsplash.jpg');color:rgba(9, 162, 255, 0.85);">
-    <div class="text">
-        <h2>Hello <%= teacher.fname %></h2>
-    </div>
-</section>
+
+<form method="post" action="/api/common" style="margin-top: 150px" class="text-center">
+    <label class="form-control-label">Semester
+        <input type="number" class="form-control" max="2" min="1" name="semester">
+    </label>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 <footer class="page-footer dark">
 
     <div class="footer-copyright">
@@ -48,6 +53,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
 <script src="/js/smoothproducts.min.js"></script>
 <script src="/js/theme.js"></script>
+<script src="/js/directorLinking.js"></script>
+
 </body>
 
 </html>

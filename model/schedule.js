@@ -158,11 +158,11 @@ exports.addSchedule = (schedule, grade, section, scheduleForTheStudent) => {
 
 };
 
-exports.findSchedule = (day, grade, section, semester) => {
+exports.findSchedule = (year, day, grade, section, semester) => {
 
     return new Promise((resolve, reject) => {
 
-        scheduleModel.find({day: day, grade: grade, section: section, semester: semester}, (err, foundSchedule) => {
+        scheduleModel.findOne({year: year, day: day, grade: grade, section: section, semester: semester}, (err, foundSchedule) => {
 
             if(err) {
 
@@ -170,6 +170,50 @@ exports.findSchedule = (day, grade, section, semester) => {
 
             } else {
                 resolve(foundSchedule)
+            }
+
+        })
+
+    })
+
+};
+
+exports.findByGradeSectionDay = (grade, section, day) => {
+
+    return new Promise((resolve, reject) => {
+
+        scheduleModel.findOne({grade: grade, section: section, day: day}, (err, foundSchedule) => {
+
+            if(err) {
+
+                reject(err)
+
+            } else {
+
+                resolve(foundSchedule)
+
+            }
+
+        })
+
+    })
+
+}
+
+exports.findByGradeSection = (grade, section) => {
+
+    return new Promise((resolve, reject) => {
+
+        scheduleModel.find({grade: grade, section: section}, (err, foundSchedule) => {
+
+            if(err) {
+
+                reject(err)
+
+            } else {
+
+                resolve(foundSchedule)
+
             }
 
         })

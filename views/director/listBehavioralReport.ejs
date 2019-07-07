@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<div class="mb-lg-5">
+<div>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
         <div class="container"><a href="#" class="navbar-brand">Mekelle University Community School</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
@@ -37,79 +37,42 @@
         </div>
     </nav>
 </div>
-<section class="container">
-
-<form method="post" class="align-content-center align-content-lg-center" style="margin-top: 150px">
-    <div class="container" >
-        <div class="row">
-            <div class="col">
-                <label>Day:
-                    <select name="day" class="form-control" id="dayInputId" required>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                    </select>
-                </label><br><br>
-            </div>
-            <div class="col">
-                <label>Year:
-                    <input type="number" name="year" class="form-control" id="yearInputId" min="2010" required>
-                </label>
-            </div>
-            <div class="col">
-                <label>Grade:
-                    <input type="number" name="grade" class="form-control" id="gradeInputId" min="1" max="12" required>
-                </label>
-            </div>
-            <div class="col">
-                <label>Semester:
-                    <input type="number" name="semester" class="form-control" id="semesterInputId" max="2" min="1" required>
-                </label><br>
-            </div>
-            <div class="col">
-
-                <label>Section:
-                    <input type="text" name="section" class="form-control" id="sectionInputId" required>
-                </label><br>
-            </div>
-
-        </div>
-    </div>
-    <div class="row text-center">
-        <div class="col mb-4">
-            <button type="button" class="btn-secondary btn" id="searchScheduleId">Search Schedule</button>
-        </div>
-    </div>
-</form>
+<section class="container" style="margin-top: 150px">
+    <h2 class="text-center"><%= student.fname + " " + student.lname %></h2>
+    <h3 class="text-center" name =<%= student._id %> > <%= student.idNumber %></h3>
+    <small hidden id="studentId"><%= student._id %></small>
+    <% if(reports.length == 0) { %>
+    <h5 class="text-center text-danger">There is no behavioral report for this student, yet.</h5>
+    <% } %>
 </section>
+<div class="container" style="margin-top: 50px">
+    <div class="row" id="cardRow">
+        <% for(let i=0; i < reports.length; i++){ %>
+        <div class="col cardCol mb-4" >
 
-<section class="container" id="container"></section>
-<div class="card-deck" id="card-deck"></div>
-
-<section class="container" style="margin-bottom: 5px">
-    <div class="row text-center">
-        <div class="col">
-            <button type="button" class="btn-secondary btn" id="addNewScheduleId">Add New Schedule</button>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <!--<%= events[i].createdDate %>-->
+                    <h5 class="card-title text-center"><%= reports[i].title %></h5>
+                    <p class="card-text"><%= events[i].description %></p>
+                    <a href="#" id="editReportButtonId" name="editEventButton" class="btn btn-primary">Edit</a>
+                    <a href="#" id="deleteReportButtonId" class="btn btn-primary deleteEventButton" name=<%=reports[i].id%> >Delete</a>
+                </div>
+            </div>
         </div>
-
-        <div class="col">
-            <button type="button" class="btn-secondary btn" id="editScheduleId">Edit The Schedule</button>
-        </div>
-
-        <div class="col">
-            <button type="button" class="btn-secondary btn" id="deleteScheduleId">Delete The Schedule</button>
-        </div>
+        <% } %>
     </div>
-</section>
+</div>
+<div class="text-center">
+    <button type="button" href="/api/behavioralReport" id="addReportButtonId" class="btn btn-primary mb-4">Add Behavioral Report</button>
+</div>
 
 <script src="/js/jquery.min.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
 <script src="/js/smoothproducts.min.js"></script>
 <script src="/js/theme.js"></script>
-<script src="/js/listSchedule.js"></script>
+<script src="/js/listBehavioralReports.js"></script>
 <script src="/js/directorLinking.js"></script>
 
 </body>

@@ -97,9 +97,9 @@
                 <div class="form-group">
                     <input type="tel" name="familyTel" placeholder="tel" class="form-control" required value=<%= student.familyContact[0].tel %> >
                 </div>
-                <div class="form-group">
-                    <input type="file" name="pic" required>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<input type="file" name="pic" required>-->
+                <!--</div>-->
                 <div class="form-group">
                     <%if(student.fname == "") { %>
                     <button formaction="/api/student" class="btn btn-primary btn-block" type="submit">Register</button>

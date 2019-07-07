@@ -8,6 +8,7 @@ let addScheduleButton = document.getElementById("addNewScheduleId");
 let editScheduleButton = document.getElementById("editScheduleId");
 let deleteScheduleButton = document.getElementById("deleteScheduleId");
 
+let yearInput = document.getElementById("yearInputId");
 let dayInput = document.getElementById("dayInputId");
 let gradeInput = document.getElementById("gradeInputId");
 let sectionInput = document.getElementById("sectionInputId");
@@ -120,12 +121,14 @@ function searchingForSpecificSchedule() {
         http.open("post", url, true);
         http.setRequestHeader("Content-Type", "application/json")
 
+        let year = yearInput.value;
         let day = dayInput.value;
         let grade = gradeInput.value;
         let section = sectionInput.value;
         let semester = semesterInput.value;
 
         http.send(JSON.stringify({
+            year: year,
             day: day,
             grade: grade,
             section: section,
@@ -139,13 +142,14 @@ function searchingForSpecificSchedule() {
                 let receivedData = JSON.parse(http.responseText, (key, value) => {
                     return value;
                 });
-                if (receivedData.length === 0) {
+                console.log("The response is", http.responseText);
+                if (receivedData === null) {
                     alert("There is no schedule saved with that property")
                 } else {
 
                     console.log(receivedData);
-                    scheduleId = receivedData[0]._id;
-                    program = receivedData[0].program;
+                    scheduleId = receivedData._id;
+                    program = receivedData.program;
                     formTheView(4);
                     formTheView(3);
                     period = 1;

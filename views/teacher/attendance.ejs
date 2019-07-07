@@ -22,7 +22,7 @@
 <body>
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
-            <div class="container"><a class="navbar-brand" href="#">Xyz Community School</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container"><a class="navbar-brand" href="#">Mekelle University Community School</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse"
                     id="navcol-1">
                     <ul class="nav navbar-nav ml-auto">
@@ -49,8 +49,9 @@
                 </div>
                 <div class="form-group col">
                     <label class="form-control-label"> Grade
-                        <select name="courseName" class="form-control" id="grade" required>
-                        </select>
+                        <input type="number" max="12" min="1" class="form-control" id="gradeInput" required>
+                        <!--<select name="courseName" class="form-control" id="grade" required>-->
+                        <!--</select>-->
                     </label>
                 </div>
                 <div class="form-group col">
@@ -61,15 +62,17 @@
                 </div>
                 <div class="form-group col">
                     <label class="form-control-label"> Period
-                        <select name="period" class="form-control" id="period" required>
-                            </select>
+                        <input type="number" class="form-control" id="periodInput" max="7" min="1" required>
+                        <!--<select name="period" class="form-control" id="period" required>-->
+                            <!--</select>-->
                     </label>
                 </div>
 
                 <div class="form-group col">
                     <label class="form-control-label"> Section
-                        <select name="courseName" class="form-control" id="section" required>
-                        </select>
+                        <input type="text" class="form-control" id="sectionInput" required>
+                        <!--<select name="courseName" class="form-control" id="section" required>-->
+                        <!--</select>-->
                     </label>
                 </div>
             </div>

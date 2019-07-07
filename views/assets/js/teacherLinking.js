@@ -27,7 +27,7 @@ scheduleLink.onclick = function () {
 
     let id = currentUrl.split("/");
 
-    window.location.href = "http://localhost:3000/api/schedule/" + id[id.length - 1];
+    window.location.href = "http://localhost:3000/api/teacher/mySchedule/" + id[id.length - 1];
 
     return false
 

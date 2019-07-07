@@ -20,17 +20,18 @@ registrarRouter.get("/registrarHome", (req, res, next) => {
 
 });
 
-
 registrarRouter.post("/registrar", (req, res, next) => {
 
     let passedData = req.body;
+
+    let password = cryptoo.randomBytes(2).toString("hex");
 
     let registrar = {fname: passedData.fname,
                     lname: passedData.lname,
                     email: passedData.email,
                     gender: passedData.gender,
                     uname: passedData.uname,
-                    password: passedData.password};
+                    password: password};
 
     registrarModel.registerParent(registrar).then(savedRegistrar => {
 

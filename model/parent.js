@@ -332,8 +332,9 @@ exports.sendEmail = () => {
                     let student = foundStudents[i];
                     let familyContact = student.familyContact;
                     for (let j = 0; j < familyContact.length; j++) {
-                        sendEmail(familyContact[j].email, familyContact[j].token, student.name).then(info => {
+                        sendEmail(familyContact[j].email, "Here is the token for " + name + ": " + familyContact[j].token, "<p>Hello, here is the token for" + familyContact[i].token + "</p>").then(info => {
                             resolve("Successfully Sent to " + familyContact[j].email);
+                        // sendEmail(familyContact[j].email, familyContact[j].token, student.name).then(info => {
                         }).catch(err => {
                             reject(err)
                         });
@@ -347,7 +348,7 @@ exports.sendEmail = () => {
 
 };
 
-function sendEmail(email, token, name) {
+function sendEmail(email, text, html) {
 
     return new Promise((resolve, reject) => {
 
@@ -362,8 +363,8 @@ function sendEmail(email, token, name) {
             from: "Student Portal",
             to: "dawitsileshi45@gmail.com",
             subject: "Token for Creating Account",
-            text: "Here is the token for " + name + ": " + token,
-            html: "<p>Hello, here is the token for" + token + "</p>"
+            text: text,
+            html: html
         }, (err, info) => {
             if(err) {
                 reject(err);

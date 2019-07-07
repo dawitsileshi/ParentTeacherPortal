@@ -1,6 +1,26 @@
 let studentModel = require("./schemas/studentSchema");
 let scheduleModel = require("./schemas/scheduleSchema");
 
+let gradeModel = require("./schemas/gradeSchema");
+
+let commonModel = require("./schemas/commonSchema");
+
+let attendanceModel = require("./schemas/attendanceSchema");
+
+let currentSemester;
+
+commonModel.find({}, (err, foundCommon) => {
+    console.log(foundCommon);
+    if(err) {
+
+    } else {
+        if(foundCommon.length !== 0) {
+            let currentCommon = foundCommon[foundCommon.length - 1];
+            currentSemester = currentCommon.semester;
+        }
+    }
+});
+
 exports.registerStudent = student => {
 
   return new Promise((resolve, reject) => {
@@ -202,6 +222,70 @@ exports.showStudentMedicalRecord = id => {
                 resolve(foundMedicalRecord)
             }
 
+        })
+
+    })
+
+};
+
+exports.showGrade = id => {
+
+    return new Promise((resolve, reject) => {
+
+        studentModel.findOne({_id: id}, (err, foundStudent) => {
+
+            console.log("the found stduent", foundStudent);
+            if(err) {
+                reject(err)
+            } else {
+                let grade = foundStudent.grade;
+                let section = foundStudent.section;
+
+                console.log(grade + " " + section)
+                gradeModel.find({grade: grade, studentId: foundStudent._id}, (err, foundGrade) => {
+
+                    console.log("The found schedule", foundGrade)
+                    if(err) {
+                        reject(err)
+                    } else {
+                        resolve(foundGrade)
+                    }
+
+                })
+            }
+        })
+        // gradeModel.find({})
+
+    })
+
+};
+
+exports.getStudentAttendance = id => {
+
+    return new Promise((resolve, reject) => {
+
+        studentModel.findOne({_id: id}, (err, foundStudent) => {
+            if(err) {
+                reject(err)
+            } else {
+                if(foundStudent === null) {
+                    reject("There is no student")
+                } else {
+                    let grade = foundStudent.grade;
+                    let section = foundStudent.section;
+                    console.log(grade, section)
+                    attendanceModel.find({"dailyAttendance.grade": grade, "dailyAttendance.section": section}, (err, foundAttendances) => {
+
+                        if(err) {
+                            reject(err)
+                        } else {
+                            console.log(foundAttendances)
+                            resolve(foundAttendances)
+                        }
+
+                    })
+                }
+            }
         })
 
     })
