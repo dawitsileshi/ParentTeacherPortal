@@ -16,7 +16,7 @@
     "@panva/jose": "^0.11.4",
     "arraylist": "latest",
     "async": "^2.6.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bcrypt": "^3.0.5",
     "body-parser": "latest",
     "bootstrap": "^3.4.1",
