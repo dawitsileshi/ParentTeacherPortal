@@ -68,7 +68,7 @@
     "swagger-ui-express": "^4.0.2",
     "sync-request": "^6.1.0",
     "underscore": "^1.9.1",
-    "url-parse": "^1.4.7",
+    "url-parse": "^1.5.8",
     "uuid": "^3.3.2",
     "ws": "^6.2.0"
   }
