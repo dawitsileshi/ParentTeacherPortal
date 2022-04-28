@@ -15,7 +15,7 @@
   "dependencies": {
     "@panva/jose": "^0.11.4",
     "arraylist": "latest",
-    "async": "^2.6.2",
+    "async": "^2.6.4",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.5",
     "body-parser": "latest",
