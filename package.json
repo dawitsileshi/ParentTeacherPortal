@@ -47,7 +47,7 @@
     "lodash": "^4.17.11",
     "mocha": "^6.0.2",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.35",
     "mongodb": "^3.1.13",
     "mongojs": "^2.6.0",
     "mongoose": "^5.4.19",
