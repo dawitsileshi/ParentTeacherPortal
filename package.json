@@ -32,7 +32,7 @@
     "ejs": "^2.6.1",
     "ejs-locals": "^1.0.2",
     "eslint": "^5.16.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "grunt-contrib-jshint": "^2.0.0",
     "grunt-contrib-less": "^2.0.0",
